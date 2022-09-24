@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>在线客服</title>
+		<style type="text/css">
+			* {
+				touch-action: pan-y;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- uni 的 SDK，必须引用。 -->
+		<!-- <script src="https://qiyukf.com/script/8d05db42edb202d27626f88f3d6c72d7.js"></script> -->
+		<script>
+			(function (w, d, n, a, j) {
+				w[n] = w[n] || function () {
+					return (w[n].a = w[n].a || []).push(arguments)
+				};
+				j = d.createElement('script');
+				j.async = true;
+				j.src = 'https://qiyukf.com/script/8d05db42edb202d27626f88f3d6c72d7.js';
+				d.body.appendChild(j);
+			})(window, document, 'ysf');
+			// 取url中的参数值
+			function getQuery(name) {
+				// 正则：[找寻'&' + 'url参数名字' = '值' + '&']（'&'可以不存在）
+				let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"),
+					r = window.location.search.substr(1).match(reg);
+				if (r != null) {
+					// 对参数值进行解码
+					return decodeURIComponent(r[2]);
+				}
+				return null;
+			}
+			ysf('onready', function() {
+				// todo
+				// console.log(getQuery('uid'),getQuery('name'),getQuery('mobile'))
+				ysf('config', {
+					uid: getQuery('uid'),     
+					name: getQuery('name'),
+					mobile: getQuery('mobile'),
+					groupid: '480798831',// 客服组id
+					success: function() { // 成功回调
+						console.log('打开')
+						ysf('open', {
+							templateId:6604347
+						});
+					},
+					error: function() { // 错误回调
+						console.log('失败')
+						// handle error
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

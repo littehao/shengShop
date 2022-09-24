@@ -1,0 +1,21 @@
+{
+	"version": "1",
+	"prompt": "template",
+	"title": "用户协议",
+	"message": "　　请你务必审慎阅读、充分理解“服务协议”和“隐私政策”各条款，包括但不限于：为了更好的向你提供服务，我们需要收集你的设备标识、操作日志等信息用于分析、优化应用性能。<br/>　　你可阅读<a href=\"https://web.uuzxshop.nlww.top/static/user-agreement.html\">《用户协议》</a>了解详细信息。如果你同意，请点击下面按钮开始接受我们的服务。",
+	"buttonAccept": "同意并接受",
+	"buttonRefuse": "不同意",
+	"styles": {
+		"backgroundColor": "#fff",
+		"borderRadius": "5px",
+		"title": {
+			"color": "#333333"
+		},
+		"buttonAccept": {
+			"color": "#333333"
+		},
+		"buttonRefuse": {
+			"color": "#999999"
+		}
+	}
+}
