@@ -12,10 +12,18 @@
 				</template>
 			</view>
 			<!--#ifdef APP-PLUS-->
-			<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
-				<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
-				<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
-			</view>
+			<template v-if="getPlatform == 'ios' && getConfig.ios_weixin_login.includes(`${getVersion}`)">
+				<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
+					<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
+					<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
+				</view>
+			</template>
+			<template v-if="getPlatform == 'android'">
+				<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
+					<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
+					<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
+				</view>
+			</template>
 			<!-- #endif -->
 		</view>
 		<card-bottom ref="LoginMode" :wx="false"></card-bottom>
@@ -23,7 +31,7 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex'
+	import { mapGetters } from 'vuex'
 	import baseApi from '@/api/baseApi.js'
 	import { getUrlCode,isWechat,getWeChatCode,getAlipayCode } from '@/utils/common.js'
 	import comHead from "@/components/header/index.vue";
@@ -46,6 +54,9 @@
 				this.loginWxFn()
 			}
 			// #endif
+		},
+		computed:{
+			...mapGetters(['getConfig','getPlatform','getVersion'])
 		},
 		methods:{
 			loginMode(){

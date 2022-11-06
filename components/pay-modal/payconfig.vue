@@ -89,6 +89,10 @@
 			memberCode:{//商户号
 				type:[String,Number],
 				default:0
+			},
+			authcode:{
+				type:String,
+				default:''
 			}
 		},
 		data() {
@@ -108,6 +112,24 @@
 			this.getPayConfigList();
 		},
 		methods: {
+			argumentsFn(){
+				// #ifdef APP-PLUS
+					setTimeout(() => {
+						var param = plus.runtime.arguments;
+						console.log(param)
+						if (param != ''){
+							if(param == 'success'){
+								uni.$tools.toast('支付成功')
+							} else {
+								uni.$tools.toast('支付失败')
+							}
+							this.close()
+							plus.runtime.arguments = null;
+							plus.runtime.arguments = "";
+						}
+					},200)
+				// #endif
+			},
 			close() {
 				this.$refs.pay.close();
 				this.act_password = null;
@@ -118,14 +140,17 @@
 			},
 			getPayConfigList() {
 				let data = {}
+				// #ifdef APP-PLUS
+					data.pay_scene = 2
+				// #endif
+				
+				// #ifdef H5
+					data.pay_scene = 1
+				// #endif
 				if (this.payType) data.shopType = this.payType
+				// console.log(data)
 				payApi.payConfigList(data).then(res => {
-					// #ifdef APP-PLUS
-					this.payList = res.data.filter(item => item.name != '微信')
-					// #endif
-					// #ifdef H5
 					this.payList = res.data
-					// #endif
 					if (this.payList.length > 0)
 						this.way = this.payList[0]
 				})

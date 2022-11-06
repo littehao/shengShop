@@ -29,10 +29,20 @@
 				<text  class="ft3d3c fs-24 mx-1" @tap="linkToHTML('user-agreement','用户协议')">《用户协议》</text>
 			</view>
 			<view class="rounded-circle fs-32 ftffff flex align-center justify-center py-3 submit" @click="submit">登录</view>
-			<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
-				<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
-				<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
-			</view>
+			<!--#ifdef APP-PLUS-->
+			<template v-if="getPlatform == 'ios' && getConfig.ios_weixin_login && getConfig.ios_weixin_login.includes(`${getVersion}`)">
+				<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
+					<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
+					<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
+				</view>
+			</template>
+			<template v-if="getPlatform == 'android'">
+				<view class="flex justify-center align-center position-fixed left-0 right-0" style="bottom: 10vh;">
+					<text class="fs-28 ft999999" @click="loginMode">其他登录方式</text>
+					<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
+				</view>
+			</template>
+			<!-- #endif -->
 			<view style="height: 50px;"></view>
 			
 			<card-bottom ref="LoginMode" :pwd="false"></card-bottom>
@@ -62,6 +72,9 @@
 			if(mobile){
 				this.mobile  = mobile;
 			}
+		},
+		computed:{
+			...mapGetters(['getConfig','getPlatform','getVersion'])
 		},
 		methods:{
 			loginMode(){

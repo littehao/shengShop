@@ -1,20 +1,20 @@
 <template>
-	<view class="balace-page bgf4f4">
+	<view class="balace-page bgF5F5F5">
 		<com-head :titleshow="true" :title="title" color="#fff" :backshow="true" class="header-bg"></com-head>
-		<view class="balace-main px-2 pb-4">
-			<view class="flex justify-around bgffff rounded px-2 mb-2 py-3" style="margin-top:100rpx">
-				<view class="fs-28 flex-1 flex flex-column justify-center align-center ft9999">
-					<text class="fs-36  font-weight-bolder ft3333">{{memberCount.active}}</text>
-					活跃数
+		<view class="balace-main pb-4">
+			<view class="flex justify-around rounded mb-2 py-3" style="margin-top:60rpx">
+				<view class="fs-28 flex-1 flex flex-column justify-center align-center ftffffff" style="border-right: 1px solid rgba(255, 255, 255,0.5);">
+					<text class="fs-36  font-weight-bolder ftffffff">{{memberCount && memberCount.direct_push}}</text>
+					我的好友
 				</view>
-				<view class="fs-28  flex-1 flex flex-column justify-center align-center ft9999">
-					<text class="fs-36 font-weight-bolder ft3333">{{memberCount.total}}</text>
-					总数
+				<view class="fs-28  flex-1 flex flex-column justify-center align-center ftffffff">
+					<text class="fs-36 font-weight-bolder ftffffff">{{memberCount &&  memberCount.indirect_push}}</text>
+					我的粉丝
 				</view>
 			</view>
 			<template v-if="List">
 				<template v-if="List.length > 0">
-					<view class="py-3 border-bottom border-light-secondary bgffffff p-2 not-border rounded mb-1"
+					<view class="py-3 mx-2 border-bottom border-light-secondary bgffffff p-2 not-border rounded mb-1"
 						v-for="(item,index) in List" :key="index">
 						<view class="fs-30 ft9999 mb-1 flex align-center justify-between">
 							<text>{{item.member_name}}</text>
@@ -49,6 +49,11 @@
 		mapGetters
 	} from "vuex";
 	export default {
+		components: {
+			comHead,
+			nulldata,
+			loading
+		},
 		data() {
 			return {
 				page: 1,
@@ -59,10 +64,7 @@
 				all_total: 0,
 				title: '',
 				category: '',
-				memberCount: {
-					active: 0,
-					total: 0
-				},
+				memberCount: null,
 			}
 		},
 		computed: {
@@ -89,19 +91,7 @@
 			getChildMemberCountFn() {
 				myApi.getChildMemberCount().then(res => {
 					this.$refs.loading.hide();
-					let memberCount = res.data
-					let data = []
-					if (this.category == 1) {
-						data = memberCount.direct_push.split('/')
-					} else {
-						data = memberCount.indirect_push.split('/')
-					}
-					
-					this.memberCount = {
-						...memberCount
-					}
-					this.memberCount.active = data[0]
-					this.memberCount.total = data[1]
+					this.memberCount = res.data
 				}).catch(e => {
 					this.$refs.loading.hide();
 				})
@@ -129,11 +119,6 @@
 					url: `/pages/cash/recharge-juan`
 				})
 			}
-		},
-		components: {
-			comHead,
-			nulldata,
-			loading
 		}
 	}
 </script>
@@ -141,14 +126,14 @@
 <style lang="less" scoped>
 	.balace-page {
 		min-height: 100vh;
-		background-image: url(../../static/images/balance_bg.png);
+		background-image: url(../../static/images/friendbg.png);
 		background-repeat: no-repeat;
 		background-size: 100%;
 		background-position: center top;
 
 		.header-bg {
 			height: 100%;
-			background-image: url(../../static/images/balance_bg.png);
+			background-image: url(../../static/images/friendbg.png);
 			background-repeat: no-repeat;
 			background-size: 100%;
 			background-position: center top;

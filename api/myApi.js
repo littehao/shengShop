@@ -237,4 +237,63 @@ export default class {
 			data
 		)
 	}
+	/**
+	 * 订单具体商铺详情
+	 */
+	static orderMerchantDetail(data) {
+		return tools.request(
+			`/api/order/getOrderMerchant`,
+			'GET',
+			data
+		)
+	}
+	/**
+	 * 订单详情
+	 */
+	static orderDetail(data) {
+		return tools.request(
+			`/api/order/getOrder`,
+			'GET',
+			data
+		)
+	}
+	/**
+	 * 充值消费券
+	 */
+	static rechargeVorchar(data) {
+		return tools.request(
+			`/api/shop-integral/rechargeVorchar`,
+			'POST',
+			data
+		)
+	}
+	/**
+	 * 快递查询
+	 */
+	static getExpressQuery(data) {
+		return tools.request(
+			`/api/order/getExpressQuery`,
+			'GET',
+			data
+		)
+	}
+	/**
+	 * 微信授权注册
+	 */
+	static registerWxInvite(data) {
+		return tools.request(
+			`/api/member/registerWxInvite`,
+			'POST',
+			data
+		)
+	}
+	/**
+	 * 工分转绿分统计
+	 */
+	static gongtolvTotal(data) {
+		return tools.request(
+			`/api/balance/gongtolvTotal`,
+			'GET'
+		)
+	}
 }

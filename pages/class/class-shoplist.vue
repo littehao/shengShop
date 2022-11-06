@@ -1,5 +1,5 @@
 <template>
-	<view class="class-list-page bgf4f4">
+	<view class="class-list-page bgF5F5F5">
 		<comHead titleshow backshow :title="title"  bgcolor="#fff"></comHead>
 		<view class="flex flex-wrap  py-2 px-2">
 			<template v-if="goods.length > 0">

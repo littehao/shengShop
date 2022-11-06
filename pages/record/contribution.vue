@@ -1,19 +1,27 @@
 <template>
-	<view class="balace-page bgf4f4">
+	<view class="balace-page bgF5F5F5">
 		<com-head :titleshow="true" :title="title" color="#fff" :backshow="true" class="header-bg"></com-head>
 		<view class="balace-main px-2 pb-4">
 			<view class="pt-5 pb-3 flex justify-between">
-				<view class="ftffff text-center">
-					<view class="fs-24">我的{{title}}</view>
+				<view class="ftffff">
+					<view class="fs-28">我的{{title}}</view>
 					<view class="fs-60">{{getUser && Number(getUser.fine_bean) || 0}}</view>
 				</view>
 			</view>
-			<view class="flex justify-around bgffff rounded px-2 mb-2 py-3">
-				<view class="fs-28 flex-1 flex flex-column justify-center align-center" :class="category == 1?'ft333333':'ft9999'" @click="changeTab(1)">
-					个人收益
+			<view class="flex justify-around rounded px-2 mb-2 py-3">
+				<view 
+				class="fs-28 flex-1 text-center ftffffff tab position-relative font-weight-bold" 
+				:class="category == 1?'active':''"
+				 @click="changeTab(1)">
+					<view>个人收益</view>
+					<view>{{getUser.person_income || '0.00'}}</view>
 				</view>
-				<view class="fs-28  flex-1 flex flex-column justify-center align-center ft9999" :class="category == 2?'ft333333':'ft9999'" @click="changeTab(2)">
-					团队收益
+				<view 
+				class="fs-28  flex-1 text-center ftffffff tab position-relative font-weight-bold" 
+				:class="category == 2?'active':''" 
+				@click="changeTab(2)">
+					<view>团队收益</view>
+					<view>{{getUser.team_income || '0.00'}}</view>
 				</view>
 			</view>
 			<template v-if="List">
@@ -145,6 +153,17 @@
 			&:nth-last-of-type(1){
 				border: 0;
 			}
+		}
+		.tab.active::after{
+			content: '';
+			display: block;
+			width: 40rpx;
+			height: 6rpx;
+			background-color: #fff;
+			position: absolute;
+			left:45%;
+			bottom: -5px;
+			border-radius: 10px;
 		}
 	}
 </style>

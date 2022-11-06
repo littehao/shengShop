@@ -10,8 +10,9 @@ const state = {
 	config:{},
 	downApk:null,
 	platform:"android",
-	version:'1.0.0',
-	windowHeight:null
+	version:'1.0.5',
+	windowHeight:null,
+	location:null
 }
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
 	},
 	setVersion(state, data){
 		state.version = data;
+	},
+	setLocation(state, data){
+		state.location = data
 	},
 	setwindowHeight(state, data){
 		state.windowHeight = data
@@ -55,7 +59,8 @@ const getters = {
 	getdownApk: (state) => state.downApk,//apk地址
 	getPlatform: (state) => state.platform,//平台
 	getVersion: (state) => state.version,//版本号
-	getwindowHeight: (state) => state.windowHeight
+	getwindowHeight: (state) => state.windowHeight,
+	getLocation:(state) => state.location,
 }
 
 const store = new Vuex.Store({

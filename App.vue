@@ -40,7 +40,7 @@
 						var isIPhone12 = (window.screen.height >= 812 && window.screen.width >= 375) ||
 							(window.screen.height >= 896 && window.screen.width >= 414)
 						if (isIPhoneX || isIPhoneXSMax || isIPhoneXR || isIPhone12) {
-							bottom = 34;
+							bottom = 10;
 						}
 					}
 					this.$store.commit("setBottom", bottom)

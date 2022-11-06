@@ -1,5 +1,5 @@
 <template>
-	<view class="address-page bgf4f4">
+	<view class="address-page bgF5F5F5">
 		<comHead backshow titleshow title="我的地址" bgcolor="#fff"  class="border-bottom"></comHead>
 		
 		<view class="address-list px-2 py-3" v-if="addressList">
@@ -15,7 +15,7 @@
 						</view>
 						<view @click="chioceAddress(item)">{{item.address}}</view>
 						<view class="flex align-center justify-end mt-4">
-							<text class="del-btn fs-24 ftffff rounded  p-1 mr-2 btnBg"  @click="submitDel(item)">删除</text>
+							<text class="del-btn fs-24 rounded  p-1 mr-2 border ftEA4E3D bdEA4E3D"  @click="submitDel(item)">删除</text>
 							<text class="edit-btn fs-24 btnBg rounded  p-1 ftffff" @click="navTo('编辑地址',item)">编辑</text>
 						</view>
 					</view>
@@ -25,7 +25,7 @@
 		</view>
 		<loading  ref="loading"></loading>
 		<view style="height: 60px;"></view>
-		<view class="position-fixed left-0 right-0  bottom-0 bgf4f4  flex align-center justify-center" style="height: 60px;">
+		<view class="position-fixed left-0 right-0  bottom-0 bgF5F5F5  flex align-center justify-center" style="height: 60px;">
 			<view class="btnBg fs-28 ftffff flex align-center justify-center rounded-circle mx-2 py-2  flex-1" @click="navTo('添加地址')">新 增</view>
 		</view>
 		

@@ -24,12 +24,12 @@
           :style="{
             color: current == i ? activeColor : color,
             fontSize: current == i ? activeFontSize : fontSize,
-            fontWeight: bold && current == i ? 'bold' : '',
-            justifyContent: !scroll ? 'center' : '',
+            fontWeight: bold && current == i ? 'bold' : fontbold ? 'bold': '',
+            justifyContent: 'center',
             flex: scroll ? '' : 1,
-			boxSizing:'border-box',
+						boxSizing:'border-box',
             padding: paddingItem,
-			width:width
+						width:width
           }"
           @click="change(i)"
         >
@@ -46,7 +46,7 @@
 			backgroundPosition: 'bottom center', 
 			backgroundSize:lineWidth/2 + 'px',
             width: lineWidth + 'px',
-            height: `10px`,
+            height: lineHeight,
             borderRadius: lineRadius,
             left: lineLeft + 'px',
             transform: `translateX(-${lineWidth / 2}px)`
@@ -113,6 +113,10 @@ export default {
         return []
       }
     },
+		fontbold:{
+			type: Boolean,
+			default: true
+		},
     bgColor: {
       type: String,
       default: '#fff'
@@ -145,10 +149,10 @@ export default {
       type: Boolean,
       default: true
     },
-	width:{
-		type: String,
-		default: ''
-	},
+		width:{
+			type: String,
+			default: ''
+		},
     height: {
       type: String,
       default: ''
@@ -159,7 +163,7 @@ export default {
     },
     lineHeight: {
       type: String,
-      default: '10rpx'
+      default: '10px'
     },
     lineScale: {
       type: Number,

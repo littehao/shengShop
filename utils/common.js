@@ -226,3 +226,24 @@ export function getImageInfo(src) {
 		});
 	});
 };
+//根据经纬度计算距离
+export function distance(lat1, lng1 ,location) {
+	if(!lat1 || !lng1)return 0
+	if(!location)return 0
+	location = JSON.parse(location)
+	let lat2 = location.lat;
+	let lng2 = location.lng;
+	let rad1 = lat1 * Math.PI / 180.0;
+	let rad2 = lat2 * Math.PI / 180.0;
+	let a = rad1 - rad2;
+	let b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+	let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) *
+		Math.cos(
+			rad2) * Math.pow(
+			Math.sin(b / 2), 2)));
+	s = s * 6378.137;
+	s = Math.round(s * 10000) / 10000;
+	s = s.toString();
+	s = s.substring(0, s.indexOf('.') + 2);
+	return s
+}

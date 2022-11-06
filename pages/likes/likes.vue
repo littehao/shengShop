@@ -1,5 +1,5 @@
 <template>
-	<view class="likes-page bgf4f4">
+	<view class="likes-page bgF5F5F5">
 		<com-head backshow  :titleshow="true" color="#333" bgcolor="#fff"  title="我的收藏"></com-head>
 		<view class="main-page">
 			<view class="position-relative"  style="min-height: 800rpx;">

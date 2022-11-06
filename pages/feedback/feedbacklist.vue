@@ -1,5 +1,5 @@
 <template>
-	<view class="h-100vh bgf4f4">
+	<view class="h-100vh bgF5F5F5">
 		<com-head bgcolor="#fff" :titleshow="true" title="反馈记录" :backshow="true" :isRefresh='true'></com-head>
 		<view class="p-2">
 			<block v-for="(item,index) in datalist">
@@ -11,7 +11,7 @@
 					</view>
 					<view class="flex flex-wrap">
 						<block v-for="(item,index) in item.case_img">
-							<image class="bgf4f4 rounded" :src="item" mode="widthFix" style="width: 200rpx;height: 200rpx;"></image>
+							<image class="bgF5F5F5 rounded" :src="item" mode="widthFix" style="width: 200rpx;height: 200rpx;"></image>
 						</block>
 					</view>
 				</view>

@@ -1,5 +1,5 @@
 <template>
-	<view class="bgf4f4 h-100vh">
+	<view class="bgF5F5F5 h-100vh">
 		<comHead titleshow title="支付" bgcolor="#fff"  class="border-bottom"></comHead>
 		<view class="px-3 pt-5">
 			<view class="flex u-font-xl font-weight-bold mb-5 mt-5 fs-32">
@@ -30,6 +30,7 @@
 		:goodsPayNum="Number(money)"
 		fromType="shoppay"
 		payType="5"
+		:authcode="auth_code"
 		:memberCode="member_code"
 		></payconfig>
 		
@@ -39,6 +40,7 @@
 <script>
 	import { mapActions,mapGetters } from 'vuex'
 	import myApi from '@/api/myApi.js'
+	import { getWeChatCode, getUrlCode, isWechat } from '@/utils/common.js'
 	import comHead from '@/components/header/index.vue'
 	import payconfig from "@/components/pay-modal/payconfig.vue";
 	export default {
@@ -49,14 +51,31 @@
 				member_code:'',
 				payList: [],
 				way:null,
-				checkeindex:0
+				checkeindex:0,
+				auth_code:''
 			}
 		},
 		onLoad(query) {
 			this.member_code  = query.member_code
+			query.member_code && uni.setStorageSync('member_code',query.member_code)
+			this.isWeixin = isWechat()
+		},
+		onShow() {
+			this.$refs.payconfig && this.$refs.payconfig.argumentsFn()
+		},
+		mounted() {
+			let code = getUrlCode('code')
+			if(this.isWeixin && code){
+				this.member_code = uni.getStorageSync('member_code')
+				this.auth_code = code
+			} else {
+				if(!uni.getStorageSync('token')){
+					getWeChatCode()
+				}
+			}
 		},
 		computed:{
-			...mapGetters(['getUser','getbottom'])
+			...mapGetters(['getUser','getbottom','getToken'])
 		},
 		methods: {
 			close() {

@@ -1,8 +1,8 @@
 {
     "name" : "盛世富购",
     "appid" : "__UNI__9B53B7E",
-    "description" : "",
-    "versionName" : "1.0.0",
+    "description" : "盛世富购",
+    "versionName" : "1.0.9",
     "versionCode" : 201,
     "transformPx" : false,
     /* 5+App特有相关 */
@@ -22,7 +22,10 @@
         /* 模块配置 */
         "modules" : {
             "OAuth" : {},
-            "Payment" : {}
+            "Payment" : {},
+            "Share" : {},
+            "Messaging" : {},
+            "Maps" : {}
         },
         /* 应用发布信息 */
         "distribute" : {
@@ -39,24 +42,35 @@
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+                    "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.BIND_INPUT_METHOD\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
                     "<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
                     "<uses-permission android:name=\"android.permission.CAMERA\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
                     "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+                    "<uses-permission android:name=\"android.permission.INTERNET\"/>",
                     "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
                     "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
+                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+                    "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
+                    "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>"
                 ],
                 "schemes" : [ "ssfg", "com.ssfg.app" ],
                 "autoSdkPermissions" : false,
@@ -110,6 +124,12 @@
                         "appid" : "wx9fea3848e32ef443",
                         "UniversalLinks" : "https://static-f72c8bd9-6a08-4720-ad57-a5f9e3143e66.bspapp.com/uni-universallinks/__UNI__DBB9AD3/"
                     }
+                },
+                "maps" : {
+                    "amap" : {
+                        "appkey_ios" : "aaad0fd00f0dc4bb7ff94634aa104c3c",
+                        "appkey_android" : "cf1671fec681dba48ffe4ad13441a692"
+                    }
                 }
             },
             "icons" : {
@@ -147,7 +167,8 @@
             "splashscreen" : {
                 "useOriginalMsgbox" : true
             }
-        }
+        },
+        "nativePlugins" : {}
     },
     /* 快应用特有相关 */
     "quickapp" : {},
@@ -174,6 +195,18 @@
     "h5" : {
         "router" : {
             "mode" : "history"
+        },
+        "sdkConfigs" : {
+            "maps" : {
+                "amap" : {
+                    "key" : "24c40e05f3ecf374f4060574c499f4be",
+                    "securityJsCode" : "a7c91cc4606f9b437cab53b2c7f818a7",
+                    "serviceHost" : "http://ht.web.shop.shengshihongda.com"
+                }
+            }
+        },
+        "devServer" : {
+            "https" : false
         }
     },
     "vueVersion" : "2"

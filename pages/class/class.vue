@@ -1,9 +1,9 @@
 <template>
-	<view class="class-page bgf4f4">
+	<view class="class-page bgF5F5F5">
 		<view class="class-header bgffff border-bottom">
 			<comHead></comHead>
 			<view class="flex align-center px-3" style="height: 44px;">
-				<view class="bgf4f4 search-box bgf4f4 px-2 flex align-center justify-between flex-1 rounded-circle"
+				<view class="bgF5F5F5 search-box bgF5F5F5 px-2 flex align-center justify-between flex-1 rounded-circle"
 					@click="navTo('/pages/search/search')">
 					<text class="fs-28 ft9999">请您输入商品、品牌名称</text>
 					<text class="iconfont icon-sousuo_2 fs-36 ftb2b2 ml-1"></text>
@@ -36,7 +36,7 @@
 												style="width: 164rpx;"
 												@click="navTo(`/pages/class/class-shoplist?title=${item.gc_name}&gc_id=${item.gc_id}`)">
 												<image style="width: 100rpx;height: 100rpx;"
-													class="mx-auto rounded bgf4f4" :src="item.image_url"
+													class="mx-auto rounded bgF5F5F5" :src="item.image_url"
 													mode="aspectFill"></image>
 												<text class="fs-24 ft3333 mt-1">{{item.gc_name}}</text>
 											</view>

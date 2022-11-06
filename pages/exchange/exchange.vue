@@ -1,29 +1,51 @@
 <template>
-	<view class="bgf4f4 h-100vh exhangepage">
-		<comHead backshow titleshow title="工分兑换绿分" bgcolor="#fff" class="border-bottom"></comHead>
-		<view >
+	<view class="bgF5F5F5 h-100vh exhangepage">
+		<comHead backshow titleshow title=""></comHead>
+		<view class="p-3 pt-3">
+			<view class="fs-52 font-weight-bold ft333333 mt-5" style="margin-bottom: 80rpx;">工分兑换绿分</view>
 			<view class="head_box flex align-center justify-center">
 				<view class="all-box flex flex-column justify-center">
 					<text
-						class="all-num text-center ftffffff">{{(getUser && Number(getUser.available_integral).toFixed(2)) || 0}}</text>
-					<text class="all-title mb-3 text-center fs-28 ftffffff">当前工分</text>
+						class="all-num text-center ft333333">{{(getUser && Number(getUser.available_integral).toFixed(2)) || 0}}</text>
+					<text class="all-title mb-3 text-center fs-28 ft666666">当前工分</text>
 				</view>
 			</view>
-			<view class="p-3">
-				<view class="flex u-font-xl font-weight-bold mb-3 mt-5">
-					工分转换多少绿分？
+			<view class="py-3">
+				<view class="flex u-font-xl font-weight-bold mb-1 fs-32 ft666666">
+					请输入兑换分数
 				</view>
-				<view class="flex bgffffff rounded justify-center">
-					<input placeholder="请输入转换数量" :border="true" type="number" class="text-center" v-model="turn_yinfen"
-						style="height: 100rpx;width:100%;" @input="changeInput"></input>
+				<view class="flex rounded justify-center border-bottom" style="border-color: #E6E6E6;">
+					 <input
+						placeholder="0.00"
+						:border="true"
+						type="number"
+						v-model="turn_yinfen"
+						style="height: 100rpx;width:100%;"
+						placeholder-style="font-size:50rpx"
+						@input="changeInput"
+					  ></input>
 				</view>
-				<view class="flex u-font-xl font-weight-bold mb-3 mt-5">
+				<view class="flex u-font-xl font-weight-bold mb-1 fs-32 ft666666 mt-4">
 					需支付金额
 				</view>
-				<view class="flex bgffffff rounded py-2 ft999999 px-3 justify-center">{{moneyValue || placeholder}}</view>
+				<view class="flex align-center rounded justify-center border-bottom" style="border-color: #E6E6E6;">
+					<text class="fs-32 mr-1">¥</text>
+					<view class="flex-1">
+						<input
+							placeholder="0.00"
+							:border="true"
+							v-model="moneyValue"
+							disabled
+							type="number"
+							class="fs-48"
+							style="height: 100rpx;width:100%;"
+							placeholder-style="font-size:50rpx"
+						 ></input>
+					</view>
+				</view>
 			
-				<view style="margin-top: 100rpx;">
-					<view class="flex justify-center py-3 btnBg ftffffff font-weight-bold rounded" @click="openway">确认转换
+				<view class="position-fixed left-0 right-0" style="bottom: 5vh;">
+					<view class="flex justify-center py-3 btnBg ftffffff font-weight-bold rounded-circle mx-3" @click="openway">确认转换
 					</view>
 				</view>
 			</view>
@@ -67,6 +89,9 @@
 		computed: {
 			...mapGetters(['getUser', 'getbottom', 'getConfig'])
 		},
+		onShow() {
+			this.$refs.payconfig && this.$refs.payconfig.argumentsFn()
+		},
 		methods: {
 			changeInput(data) {
 				this.moneyValue = (Number(data.detail.value) * (this.getConfig.jin_fen_turn_pay_wechat_rate && Number(this
@@ -88,12 +113,6 @@
 
 <style lang="scss">
 	.head_box {
-		width: 750rpx;
-		height: 380rpx;
-		background-image: url(../../static/images/balance_bg.png);
-		background-repeat: no-repeat;
-		background-size: 100%;
-		background-position: center top;
 		position: relative;
 
 		.all-box {

@@ -126,7 +126,9 @@ const tools = {
 						tools.navToLogin()
 					} else {
 						reject(res.data)
-						res.data.code != 200 && tools.toast(res.data.msg)
+						if(postData){
+							res.data.code != 200 && !postData.system_type && tools.toast(res.data.msg)
+						}
 					}
 				},
 				fail: (res) => {

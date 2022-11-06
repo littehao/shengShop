@@ -1,13 +1,13 @@
 <template>
-	<view class="main-page bgf4f4">
+	<view class="main-page bgF5F5F5">
 		<view class="main-content position-relative" :style="{height:'calc(100vh - 50px - ' +getbottom+ 'px)'}">
-			<home-page v-if="activeIndex == 0"></home-page>
+			<home-page v-if="activeIndex == 0" :isdot="isdot"></home-page>
 			<class-page v-if="activeIndex == 1"></class-page>
 			<car-pgae v-if="activeIndex == 2"></car-pgae>
 			<my-pgae v-if="activeIndex == 3"></my-pgae>
 			<paymentcode v-if="activeIndex == 4"></paymentcode>
 		</view>
-
+		
 		<view class="position-fixed left-0 right-0 bottom-0 boxsizing border-top" style="z-index: 999;"
 			:style="{height: 50 + getbottom + 'px'}">
 			<view class="flex align-center mian-tab  nav-bg">
@@ -48,17 +48,17 @@
 		</view>
 		<uni-popup ref="notice" type="dialog" style="z-index: 99999;" :maskClick="false">
 			<view class="bgffff rounded-lg" style="width: 560rpx;">
-				<view class="fs-32 text-center p-4 pb-0 ft-purple">新消息提醒</view>
+				<!-- <view class="fs-32 text-center p-4 pb-0 ft-purple">公告提醒</view> -->
 				<view class="text-center fs-32 pt-3 px-2 font-weight-bolder">
 					{{notice && notice.notice_title || ''}}
 				</view>
 				<scroll-view scroll-y="true" class="py-2" style="max-height: 50vh;">
-					<view class="fs-28 ft3333 px-2 text-left"
+					<view class="fs-28 ft3333 px-2 text-center"
 						style="min-height: 100rpx;line-height: 60rpx;color: #606266;"
 						v-html="notice&&notice.notice_content || ''"></view>
 				</scroll-view>
 				<view class="flex text-center pb-3">
-					<view class="fs-28 bg-purple ftffff flex align-center justify-center rounded-circle mx-auto py-2"
+					<view class="fs-28 btnBg ftffff flex align-center justify-center rounded-circle mx-auto py-2"
 						style="width: 300rpx;" @click="$refs.notice.close()">我知道了</view>
 				</view>
 			</view>
@@ -124,11 +124,14 @@
 				stage_end: null,
 				flag: false, // 入场协议开关
 				pid: null,
-				time_template_id: null
+				time_template_id: null,
+				noticesList:[],
+				isdot:false
 			};
 		},
 		created() {
 			this.getconfigAll();
+			this.getLocation()
 		},
 		onShow() {
 			//从商品详情进入购物车
@@ -139,11 +142,13 @@
 			};
 			if (this.config) this.getconfigAll();
 			if (this.getToken) this.GetInfo();
+			if(this.noticesList.length > 0 && this.getToken) this.notices()
 		},
 		mounted() {
 			if (!uni.getStorageSync('agreement_key')) {
 				this.$refs.useragreement.open()
 			}
+			if (this.getToken)this.notices()
 		},
 		computed: {
 			...mapGetters(['getToken', 'getdownApk', 'getbottom', 'getConfig', 'getUser', 'getPlatform', 'getVersion'])
@@ -173,8 +178,56 @@
 			},
 		},
 		methods: {
+			// 公告列表
+			notices(){
+				baseApi.notices().then(res => {
+					this.noticesList = res.data
+					let noticesNum = uni.getStorageSync('noticesNum')
+					if(this.noticesList.length > 0){
+						if(noticesNum && noticesNum == this.noticesList.length){
+							this.isdot = false
+						} else {
+							this.isdot = true
+							this.noticesDetails(this.noticesList[0]['notice_id'])
+						}
+					}
+					uni.setStorageSync('noticesNum',this.noticesList.length)
+				})
+			},
+			//公告详细
+			noticesDetails(notice_id){
+				baseApi.noticesDetails({id:notice_id}).then(res => {
+					this.notice = res.data
+					this.$nextTick(() => {
+						this.$refs.notice.open()
+					})
+				}).catch(e => {
+					console.log(e)
+				})
+			},
+			//获取当前位置
+			getLocation() {
+				let location = {
+					lat: 0,
+					lng: 0,
+				}
+				const _this = this;
+				uni.getLocation({
+					success(res) {
+						console.log(res)
+						location.lat = res.latitude
+						location.lng = res.longitude,
+						_this.$store.commit('setLocation',location)
+						uni.setStorageSync('location',JSON.stringify(location))
+					},
+					fail(err) {
+						console.log(err) //获取失败则返回经纬坐标为0
+					}
+				})
+			},
 			getconfigAll() {
 				baseApi.configAll().then(res => {
+					console.log(res)
 					this.config = res.data;
 					this.$store.commit("setconfig", this.config)
 					uni.setStorageSync('config', JSON.stringify(this.config))

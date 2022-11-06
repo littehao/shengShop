@@ -3,7 +3,7 @@
 		<view class="statuslan" :class="{bglan:statusbg}"></view>
 		<view v-if="titleshow"  class="flex align-center position-relative"  :class="[left?'pl-100':'justify-center']" style="height: 44px;">
 			<view v-if="backshow" class="back position-absolute  top-0 left-0" @click="back">
-				<uni-icons type="back" size="30" :color="color"></uni-icons>
+				<uni-icons type="back" size="28" :color="color"></uni-icons>
 			</view>
 			<slot name="left"></slot>
 			<text  v-if="title"  class="fs-36" :style="{color:color}">{{title}}</text>

@@ -21,11 +21,11 @@
 								<block v-for="(goods,j) in item.goods" :key="j">
 									<view class="flex align-center border-bottom py-3 goods-item">
 										<text class="checkbox mr-2" :class="goods.checked?'checked':'checke-top'" @click="checkGoods(goods)"></text>
-										<image @click="togoods(goods)" style="min-width: 170rpx;height: 170rpx;" class="flex mr-3 bgf4f4 rounded" :src="goods.img" mode="aspectFill"></image>
+										<image @click="togoods(goods)" style="min-width: 170rpx;height: 170rpx;" class="flex mr-3 bgF5F5F5 rounded" :src="goods.img" mode="aspectFill"></image>
 										<view class="flex flex-column">
 											<view class="fs-28 ft3333 font-weight-bold mb-1 text-ellipsis" style="width:400rpx">{{goods.goods_name}}</view>
 											<view v-if="goods.ruletext" class="mb-1">
-												<text class="fs-20 ft3333 bgf4f4 rounded goods-rule px-2">{{goods.ruletext}}</text>
+												<text class="fs-20 ft3333 bgF5F5F5 rounded goods-rule px-2">{{goods.ruletext}}</text>
 											</view>
 											<view class="flex align-center  justify-between">
 												<view class="flex align-center"  style="width: 170rpx;">
@@ -71,7 +71,7 @@
 						<text class="fs-24 ft5050">￥</text>
 						<text class="fs-36 ft5050 font-weight-bold">{{goodsPayNum.toFixed(2)}}</text>
 					</view>
-					<view class="submit_btn btn2-bg fs-28  ftffff rounded-circle  flex align-center justify-center"  @click="orderTo">结算</view>
+					<view class="submit_btn btnBg fs-28  ftffff rounded-circle  flex align-center justify-center"  @click="orderTo">结算</view>
 				</view>
 			</view>
 		</template>
@@ -138,13 +138,16 @@
 				}).catch(err => {})
 			},
 			changeNumber(item){//改变商品数量
-				let data = {
-					goods_num:item.goods_num,
-					cart_id:item.cart_id,
-				}
-				goodsApi.modifyCart(data).then(res => {
-					this.getCart();
-				}).catch(err => {})
+				this.$nextTick(() => {
+					console.log(item.goods_num)
+					let data = {
+						goods_num:item.goods_num,
+						cart_id:item.cart_id,
+					}
+					goodsApi.modifyCart(data).then(res => {
+						this.getCart();
+					}).catch(err => {})
+				})
 			},
 			deleteCartFn(){//删除购物车
 				if(this.cart_ids.length < 1) return

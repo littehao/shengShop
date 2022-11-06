@@ -1,15 +1,19 @@
 <template>
-	<view class="balace-page bgf4f4">
-		<com-head :titleshow="true" :title="title" color="#fff" :backshow="true" class="header-bg"></com-head>
+	<view class="balace-page bgF5F5F5" :class="bgActive">
+		<com-head :titleshow="true" :title="title" color="#fff" :backshow="true" class="header-bg" :class="bgActive"></com-head>
 		<view class="balace-main px-2 pb-4">
 			<view class="pt-5 pb-3 flex justify-between">
-				<view class="ftffff text-center">
-					<view class="fs-24">我的{{title}}</view>
+				<view class="ftffff">
+					<view class="fs-28">我的{{title}}</view>
 					<view class="fs-60">{{balance}}</view>
 				</view>
 				<view class="flex flex-column justify-end pb-1 ftffff" v-if="category == 11">
 					<view class="btn-wh ft333333 bgffff fs-24" @click="navTo()">充值</view>
 				</view>
+			</view>
+			<view class="bgffffff rounded px-2 py-4 mb-2 text-center" v-if="category == 1">
+				<view class="fs-32 font-weight-bold mb-2">工分兑换绿分累计总值</view>
+				<view class="fs-40 ft999999">{{lvfenToal}}</view>
 			</view>
 			<template v-if="List">
 				<template v-if="Object.keys(List).length > 0">
@@ -51,7 +55,8 @@
 				month_tatal:0,
 				all_total:0,
 				title:'',
-				category:''
+				category:'',
+				lvfenToal:0,
 			}
 		},
 		computed:{
@@ -66,11 +71,17 @@
 				} else if(this.category == 11){
 					return (this.getUser && Number(this.getUser.with_draw_balance).toFixed(2)) || 0
 				}
+			},
+			bgActive(){
+				if(this.title == '绿分'){
+					return 'lvbg'
+				}
 			}
 		},
 		onLoad(query) {
 			this.title = query.title
 			this.category  = query.category
+			this.category == 1 && this.gongtolvTotal()
 		},
 		mounted() {
 			this.$refs.loading.show();
@@ -111,9 +122,14 @@
 					this.List  = itemData;
 				})
 			},
+			gongtolvTotal(){
+				myApi.gongtolvTotal().then(res => {
+					this.lvfenToal = Number(res.data.totao_add_balance || 0).toFixed(2)
+				})
+			},
 			navTo(){
 				uni.navigateTo({
-					url:`/pages/cash/recharge-juan`
+					url:`/pages/recharge-juan/recharge-juan`
 				})
 			}
 		},
@@ -125,19 +141,25 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 	.balace-page{
 		min-height: 100vh;
-		background-image: url(../../static/images/balance_bg.png);
+		background-image: url(../../static/images/gongfenbg.png);
 		background-repeat: no-repeat;
 		background-size: 100%;
 		background-position: center top;
+		&.lvbg{
+			background-image: url(../../static/images/lvfenbg.png);
+		}
 		.header-bg{
 			height: 100%;
-			background-image: url(../../static/images/balance_bg.png);
+			background-image: url(../../static/images/gongfenbg.png);
 			background-repeat: no-repeat;
 			background-size: 100%;
 			background-position: center top;
+			&.lvbg{
+				background-image: url(../../static/images/lvfenbg.png);
+			}
 		}
 		.btn-wh{
 			width: 92rpx;

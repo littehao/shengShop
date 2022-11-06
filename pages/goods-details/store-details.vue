@@ -1,5 +1,5 @@
 <template>
-	<view class="store-details bgf4f4">
+	<view class="store-details bgF5F5F5">
 		<template v-if="merchant">
 			<comHead backshow titleshow color="#fff"  class="headbg">
 				<template>

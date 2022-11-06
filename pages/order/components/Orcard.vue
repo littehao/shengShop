@@ -3,7 +3,7 @@
 		<view class="fs-24 flex justify-between align-start ft3333 pb-1">
 			<text class="fs-32  flex-1 pr-5 d-block text-bold">{{goods_name}}</text>
 			<view class="">
-				<text class="d-block ft-purple">{{data.status}}</text>
+				<text class="d-block ftEA4E3D fs-28">{{data.status}}</text>
 			</view>
 		</view>
 		<view v-if="data.goods && data.goods.length>1" @click="navTo(1)">
@@ -20,7 +20,7 @@
 			<view class="pl-3  flex-1">
 				<view class="ft3333 fs-28 mb-1 line">{{data.goods[0].goods_name||'-'}}</view>
 				<view class="mb-1" v-if="data.goods[0].specs">
-					<text class="fs-20 ft3333 bgf4f4 rounded goods-rule px-2">{{Object.values(data.goods[0].specs.specs).join(' ')}}</text>
+					<text class="fs-20 ft3333 bgF5F5F5 rounded goods-rule px-2">{{Object.values(data.goods[0].specs.specs).join(' ')}}</text>
 				</view>
 				<view class="ft3333 fs-24 py">数量：<text class="">x{{data.total_num}}</text></view>
 				<view class="ft3333 fs-24 py">单价：<text class="ftED3C">￥{{data.goods?data.goods[0].unit_price:null}}</text></view>
@@ -32,13 +32,13 @@
 			<text class="fs-32 ftED3C"><text class="fs-24 ftED3C">￥</text>{{data.order_amount}}</text>
 		</view>
 		<view class="flex justify-end align-center" v-if="data.status==='待付款'">
-			<view class="rounded-circle fs-24   boxsizing border btn-whr flex justify-center align-center"
+			<view class="rounded-circle fs-24   boxsizing border btn-whr flex justify-center align-center bdA0A0A0"
 				@click="clickCancel()">取消订单</view>
 			<view class="fs-24 ftffffff ml-2 mr-1 rounded-circle btnBg btn-whr  flex justify-center align-center"
 				@click="clickPayment()">立即付款</view>
 		</view>
 		<view class="flex justify-end align-center" v-if="data.status==='待收货'">
-			<view class="py-1 px-2 rounded-circle fs-24 ft3333 border flex justify-center align-center border-secondary"
+			<view class="py-1 px-2 rounded-circle fs-24 ftEA4E3D border flex justify-center align-center bdEA4E3D"
 				@click="clickCollect()">确认收货</view>
 		</view>
 	</view>

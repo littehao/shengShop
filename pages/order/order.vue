@@ -1,5 +1,5 @@
 <template>
-	<view class="order-page h-100vh bgf4f4 flex flex-column">
+	<view class="order-page h-100vh bgF5F5F5 flex flex-column">
 		<com-head :titleshow="true" title="订单管理" :backshow="true" bgcolor="#fff"></com-head>
 		<v-tabs v-model="model" activeColor="#E7331F" class="topfiexd border-bottom border-top" :tabs="tabs"
 			field="name" @change="changeTab" :lineColor="'url(' + require('../../static/images/tabs-line.png') + ')'">
@@ -112,6 +112,9 @@
 					this.status = this.model;
 				}
 			}
+		},
+		onShow() {
+			this.$refs.payconfig && this.$refs.payconfig.argumentsFn()
 		},
 		mounted() {
 			this.$refs.comscroll.downCallback()

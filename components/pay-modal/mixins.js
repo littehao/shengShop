@@ -1,5 +1,7 @@
+
 import payApi from '@/api/payApi.js'
 import myApi from '@/api/myApi.js'
+import config from '@/config/index.js'
 export default{
 		data(){
 			return {
@@ -26,6 +28,8 @@ export default{
 					this.payYToJOrderFn()
 				} else if(this.fromType == 'shoppay'){
 					this.handScanMerchantOrderFn()
+				} else if(this.fromType == 'rechargeJuan'){
+					this.rechargeJuanFn()
 				}
 			},
 			orderListPay(){//订单列表立即付款
@@ -39,6 +43,10 @@ export default{
 					pay_id: this.way.pay_id,
 				}
 				if (this.act_password) data.act_password = this.act_password;
+				if(this.way.config_type == 14){
+					this.openWxMinPay({params:{...data},path:'/api/order/pay'})
+					return;
+				}
 				uni.showLoading({
 					title: '支付中...'
 				})
@@ -104,6 +112,10 @@ export default{
 						})
 					})
 					data.goods = goodsList;
+					if(this.way.config_type == 14){
+						this.openWxMinPay({params:{...data},path:'/api/order/create'})
+						return;
+					}
 					uni.showLoading({
 						title:'支付中...'
 					})
@@ -138,9 +150,12 @@ export default{
 					pay_code:this.way.pay_code,
 					pay_id:this.way.pay_id
 				}
+				if(this.way.config_type == 14){
+					this.openWxMinPay({params:{...data},path:'/api/shop-integral/rechargeRedPack'})
+					return;
+				}
 				myApi.rechargeRedPack(data).then(res =>{
-					this.$emit('buySuccess')
-					if(this.way.config_type == 11){
+					if(this.way.config_type == 11 || this.way.config_type == 13){
 						this.alipayFn(res.data.thirdPayUrl)
 						return
 					}
@@ -153,6 +168,7 @@ export default{
 						this.close()
 					}
 				}).catch(e => {
+					console.log(e)
 					uni.showToast({
 						title:e.msg,
 						icon:'none'
@@ -168,6 +184,10 @@ export default{
 					turn_yinfen: this.turnYinfen,
 					pay_code: this.way.pay_code,
 					pay_id: this.way.pay_id
+				}
+				if(this.way.config_type == 14){
+					this.openWxMinPay({params:{...data},path:'/api/shop-integral/payYToJOrder'})
+					return;
 				}
 				myApi.payYToJOrder(data).then(res => {
 					if(this.way.config_type == 11){
@@ -186,7 +206,40 @@ export default{
 					pay_code:this.way.pay_code,
 					pay_id:this.way.pay_id
 				}
+				if(this.authcode)data.auth_code = this.authcode
+				if(this.way.config_type == 14){
+					this.openWxMinPay({params:{...data},path:'/api/shop-integral/handScanMerchantOrder'})
+					return;
+				}
 				myApi.handScanMerchantOrder(data).then(res => {
+					uni.removeStorageSync('member_code')
+					if(this.way.config_type == 11){
+						this.alipayFn(res.data.thirdPayUrl)
+						return
+					}
+					if(res.data.thirdPayUrl){
+						this.beforePay(res.data.thirdPayUrl)
+					} else {
+						uni.showToast({
+							title:res.data.returnMessage
+						})
+						this.close()
+					}
+				}).catch(e => {
+					uni.$tools.toast(e.msg)
+				})
+			},
+			rechargeJuanFn(){//充值消费卷
+				let data = {
+					recharge_money:this.goodsPayNum,
+					pay_code:this.way.pay_code,
+					pay_id:this.way.pay_id
+				}
+				if(this.way.config_type == 14){
+					this.openWxMinPay({params:{...data},path:'/api/shop-integral/rechargeVorchar'})
+					return;
+				}
+				myApi.rechargeVorchar(data).then(res => {
 					if(this.way.config_type == 11){
 						this.alipayFn(res.data.thirdPayUrl)
 						return
@@ -211,25 +264,66 @@ export default{
 				window.location.href = thirdPayUrl
 				// #endif
 			},
+			parseParam(url, param) {
+					let urlArr = [url];
+					if (param) {
+							let paramArr = Object.entries(param).map(([key, value]) => value != null ? `${key}=${value}` : '');
+							if (paramArr.length > 0) {
+									urlArr.push(url.includes("?") ? "&" : "?");
+									urlArr.push(paramArr.join("&"));
+							}
+					}
+					return urlArr.join("");
+			},
+			openWxMinPay(data){
+				const path = this.parseParam('pages/zf/zf',{
+					params:JSON.stringify(data.params),
+					api:`${config.api}`,
+					path:`${data.path}`,
+					token:uni.getStorageSync('token')
+					})
+				// console.log(path)
+				// return
+				plus.share.getServices(function(res){
+						var sweixin = null;  
+						for(var i=0;i<res.length;i++){  
+								var t = res[i];  
+								if(t.id == 'weixin'){  
+										sweixin = t;  
+								}  
+						}  
+						if(sweixin){
+								sweixin.launchMiniProgram({  
+									 id: 'gh_1cc87458ce79',
+				　　　　　　 path: path,
+									 type: 0 //正式版:0，测试版:1，体验版:2
+								});  
+						}  
+				},function(res){  
+						console.log(JSON.stringify(res));  
+				});
+			},
 			beforePay(data){
 				let _this = this
 				const thirdPayUrl = JSON.parse(data)
-				if (typeof WeixinJSBridge == "undefined") {
-					if (document.addEventListener) {
-						document.addEventListener('WeixinJSBridgeReady', ()=>{
-							_this.onBridgeReady(thirdPayUrl)
-						}, false);
-					} else if (document.attachEvent) {
-						document.attachEvent('WeixinJSBridgeReady', ()=>{
-							_this.onBridgeReady(thirdPayUrl)
-						});
-						document.attachEvent('onWeixinJSBridgeReady', ()=>{
-							_this.onBridgeReady(thirdPayUrl)
-						});
+				// #ifdef H5
+					if (typeof WeixinJSBridge == "undefined") {
+						if (document.addEventListener) {
+							document.addEventListener('WeixinJSBridgeReady', ()=>{
+								_this.onBridgeReady(thirdPayUrl)
+							}, false);
+						} else if (document.attachEvent) {
+							document.attachEvent('WeixinJSBridgeReady', ()=>{
+								_this.onBridgeReady(thirdPayUrl)
+							});
+							document.attachEvent('onWeixinJSBridgeReady', ()=>{
+								_this.onBridgeReady(thirdPayUrl)
+							});
+						}
+					} else {
+						_this.onBridgeReady(thirdPayUrl);
 					}
-				} else {
-					_this.onBridgeReady(thirdPayUrl);
-				}
+				// #endif
 			},
 			onBridgeReady(data) {
 				let _this = this

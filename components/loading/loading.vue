@@ -1,5 +1,5 @@
 <template>
-	<view v-if="loading" class="main-loader bgf4f4 flex align-center justify-center position-absolute top-0 left-0  right-0 border-0 bgColor">
+	<view v-if="loading" class="main-loader bgF5F5F5 flex align-center justify-center position-absolute top-0 left-0  right-0 border-0 bgColor">
 		<view class="ball-scale-multiple">
 			<view></view><view></view><view></view>
 		</view>

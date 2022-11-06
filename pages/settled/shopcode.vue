@@ -1,5 +1,5 @@
 <template>
-	<view class="apply-agent bgf4f4">
+	<view class="apply-agent bgF5F5F5">
 		<com-head :titleshow="true" color="#333" :backshow="true" bgcolor="#fff" title="商家二维码"></com-head>
 
 		<view class="rounded-lg bg-white  px-2 mx-3 mt-3 mb-2 pb-3">
@@ -36,6 +36,7 @@
 		data() {
 			return {
 				merchant_name:'',
+				disabled:true
 			};
 		},
 		created() {

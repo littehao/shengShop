@@ -6,53 +6,73 @@
 		:isSuccess="isSuccess"
 		:datalen="datalen"
 		>
-			<view class="topfiexd topheight" style="top: 0;">
+			<view class="topfiexd topheight bgFEFEFE" style="top: 0;">
 				<comHead></comHead>
 				<view class="home-header px-3">
-					<view class="flex justify-end align-center position-relative py-2" >
-						<!-- <text class="iconfont icon-kefu1 fs-40 ftffff mr-5" @click="navTo('my','on-line')"></text>
-						<text class="iconfont icon-pinglun fs-40 ftffff" @click="navTo('my','msg')"></text> -->
-					</view>
+					<!-- <view class="flex justify-end align-center position-relative py-2" >
+						<text class="iconfont icon-pinglun fs-40 ftffff" @click="navTo('my','msg')"></text>
+					</view> -->
 					<view class="flex align-center home-search">
-						<view class="flex align-center search-box px-2 boxsizing rounded-circle ml-1 flex-1"
+						<view class="flex align-center search-box px-2 boxsizing rounded-circle ml-1 flex-1 bgF9F9F9"
 							@click="navTo('/pages/search/search')">
 							<text class="iconfont icon-sousuo_2 fs-36 ftb2b2 mr-2"></text>
 							<text class="fs-20 ftb2b2  text-ellipsis1 flex-1">请您输入商品、品牌、店铺名称</text>
 						</view>
+						<uni-badge 
+							:is-dot="isdot" 
+							class="uni-badge-left-margin ml-2" 
+							:text="noticeNum" 
+							absolute="rightTop" 
+							size="small">
+							<image
+								@click="navTo('/pages/notices/notices')" 
+								src="/static/images/online_icon.png"
+								style="width:20px;height:20px;"
+								mode="widthFix"
+								class="ml-2"
+							>
+							</image>
+						</uni-badge>
 					</view>
 				</view>
 			</view>
-			<view class="scroll-bg pt-3">
-				<swiper class="swiper mx-3 rounded-lg overflow-hidden " circular :indicator-dots="true" :autoplay="true"
-					:interval="10000" :duration="500">
-					<swiper-item v-for="(item,index) in  bannerList" :key="index">
-						<view id="swiper" class="swiper-item" @click="tolink(item)">
-							<image style="width: 694rpx;height: 360rpx;" class="rounded-lg flex" :src="item.banner_url"
-								mode="aspectFill"></image>
-						</view>
-					</swiper-item>
-				</swiper>
+			<view class="scroll-bg">
+				<view class="bgFEFEFE pb-3 mb-2">
+					<swiper class="swiper mx-3 rounded-lg overflow-hidden " circular :indicator-dots="true" :autoplay="true"
+						:interval="10000" :duration="500">
+						<swiper-item v-for="(item,index) in  bannerList" :key="index">
+							<view id="swiper" class="swiper-item" @click="tolink(item)">
+								<image style="width: 694rpx;height: 360rpx;" class="rounded-lg flex" :src="item.banner_url"
+									mode="aspectFill"></image>
+							</view>
+						</swiper-item>
+					</swiper>
+				</view>
 				
-				<view class="rounded-lg py-3 flex align-center justify-around bgffff tabfiexd " v-if="tabsList.length <  4">
-					<block v-for="(item,index) in tabsList" :key="index">
-						<view class="tabs-item flex flex-column  align-center" @click="clickTab(index)"
-							:class="{'line':tabsList.length-index!=1}">
-							<view class="fs-32 box-transition" :class="{'font-weight-bolder ftE7331F':status==index}"
-								style="height: 50rpx;">{{item.name}}</view>
-						</view>
-					</block>
+				<view class="online-tab-box mx-auto" :class="activeIndex == 0?'onlineTop':'onlineBottom'">
+					<view class="flex align-center mb-2">
+						<text class="online_tab online-top flex-1" :class="activeIndex == 0?'active':''" @tap="changeOnline(0,'onlineUp')"></text>
+						<text class="online_tab online-bottom flex-1" :class="activeIndex == 1?'active':''" @tap="changeOnline(1,'onlineDown')"></text>
+					</view>
+					<view class="flex flex-wrap">
+						<block v-for="(item,index) in tabList" :key="index">
+							<view 
+							class="flex flex-column text-center mb-3" 
+							:style="tabStyle"
+							@tap="tabNavTo(item)"
+							>
+								<image class="mx-auto mb-1" :src="item.img" mode="widthFix" style="width: 84rpx;height: 84rpx;"></image>
+								<text class="fs-26 ft666666">{{item.name}}</text>
+							</view>
+						</block>
+					</view>
 				</view>
-				<template v-else>
-					<v-tabs v-model="model" activeColor="#E7331F" class="tabfiexd border-bottom border-top " :tabs="tabsList"
-						field="name" @change="clickTab" lineColor="transparent" height="50px" width="25%">
-					</v-tabs>
-				</template>
-				<view class="position-relative" style="padding-top: 10px;min-height: 610px;">
-					<goodsCard :wfList='goldengoods'></goodsCard>
-					<null-data v-if="goldengoods.length == 0" class="mx-auto"
-						style="height: 100px;width: 100px;margin-bottom: 50px;"></null-data>
-					<loading ref="shoploading"></loading>
-				</view>
+				
+				<!--横向专区滚动-->
+				<!-- <horizontalCard :goldengoods="goldengoods"></horizontalCard> -->
+				
+				<component :is="currentComponent" :dataList="dataList" @loadData="loadMerchant" :tabsList="onlineDownTabList"></component>
+				
 			</view>
 		</comscroll>
 
@@ -66,65 +86,133 @@
 		mapGetters
 	} from 'vuex';
 	import comHead from '@/components/header/index.vue';
-	import vTabs from "@/components/v-tabs/v-tabs.vue";
-	import nullData from "@/components/null-data/index.vue";
 	import loading from "@/components/loading/loading.vue";
-	import goodsCard from '@/components/goodsCard/goodsCard.vue';
-	import { getTimeDifference } from "@/utils/common.js";
+	import horizontalCard from './components/horizontal_card.vue'
+	import onlineUp from './components/online_up.vue'
+	import onlineDown from './components/online_down.vue'
+	import { getTimeDifference, distance } from "@/utils/common.js";
 	import IndexApi from "@/api/indexApi.js"
+	import merchantApi from '@/api/merchantApi.js'
 	export default {
+		props:{
+			isdot:{
+				type:Boolean,
+				default:false
+			}
+		},
 		components: {
 			comHead,
-			vTabs,
-			nullData,
 			loading,
-			goodsCard
+			horizontalCard,
+			onlineUp,
+			onlineDown
 		},
 		data() {
 			return {
 				model:0,
 				bannerList: [],
-				status: 0,
+				activeIndex: 0,
 				list: [],
-				goldengoods: [],
+				onlineUpList: [],//线上商品列表
+				onlineDownList: [],//线下商户列表
+				dataList:[],
 				isSuccess:false,
 				datalen:0,
 				top: 0,
 				gc_id: 0,
 				flag: false,
-				tabsList: [],
+				currentComponent:'onlineUp',
+				specialList: [],
+				shopClass: [],
+				tabList:[],
+				onlineDownTabList:[],
+				category_id:0,
+				noticeNum:0,
 			}
 		},
 		computed: {
 			...mapGetters(['getToken', 'getstatusBarHeight', 'getConfig','getPlatform','getVersion']),
-			uniHeight() {
-				const sys = uni.getSystemInfoSync();
-				if (sys.windowHeight) {
-					return sys.windowHeight - 94 - this.getstatusBarHeight + 'px';
+			tabStyle(){
+				if(this.tabList.length == 4 || this.tabList.length == 8){
+					return {width:'25%'}
+				} else if(this.tabList.length == 5 || this.tabList.length == 10){
+					return {width:'20%'}
+				} else {
+					return {width:'25%'}
 				}
-				return 0
+			}
+		},
+		watch:{
+			isdot:{
+				handler(newval,oldval){
+					if(newval){
+						this.noticeNum = 1
+					} else {
+						this.noticeNum = 0
+					}
+				},
+				immediate:true
 			}
 		},
 		mounted() {
 			this.$refs.loading && this.$refs.loading.show();
+			this.getspecialCategory();
+			this.merchantCategory()
+			this.onlineDownTabListFn()
 		},
 		created() {
 			this.is_hot = 1
-			this.getspecialCategory();
 			this.getBanners();
 		},
 		methods: {
-			clickTab(index) {
-				this.status = index;
+			tabNavTo(item){
+				if(this.activeIndex == 1){
+					uni.navigateTo({
+						url:`/pages/shop-list/shop-list?title=${item.name}&category_id=${item.id}`
+					})
+				} else {
+					uni.navigateTo({
+						url:`/pages/class/class-shoplist?title=${item.name}&category_id=${item.id}`
+					})
+				}
+			},
+			changeOnline(index,component) {
+				this.activeIndex = index;
+				this.tabList = index == 0 ? this.specialList : this.shopClass
+				this.currentComponent =  component
 				this.$refs.comscroll.downCallback()
 			},
-			getspecialCategory() {
+			getspecialCategory() {//线上商城分类
 				IndexApi.specialCategory().then(res => {
 					let list = res.data.special_category
+					let tab = []
 					list.forEach(item => {
-						this.tabsList.push({name:item.c_name,id:item.id})
+						tab.push({name:item.c_name,id:item.id,img:item.icon})
 					})
+					this.specialList = tab
+					this.tabList = tab
 					this.$refs.comscroll.downCallback()
+				})
+			},
+			merchantCategory() {//线下商户专区分类
+				merchantApi.merchantCategory().then(res => {
+					let list = res.data
+					let tab = []
+					list.forEach(item => {
+						tab.push({name:item.c_name,id:item.id,img:item.icon})
+					})
+					this.shopClass = tab
+				})
+			},
+			onlineDownTabListFn() {//线下商户tab分类
+				merchantApi.tabCategory().then(res => {
+					let list = res.data
+					let arr = []
+					list.forEach(item => {
+						arr.push({name:item.c_name,id:item.id})
+					})
+					this.onlineDownTabList = arr
+					this.category_id = this.onlineDownTabList[0] && this.onlineDownTabList[0]['id']
 				})
 			},
 			getBanners() { //banner
@@ -132,37 +220,84 @@
 					this.bannerList = res.data;
 				}).catch(err => {})
 			},
-			loadData(page) { //商品列表
+			loadMerchant(id){
+				this.category_id = id
+				this.$refs.comscroll.downCallback()
+			},
+			loadData(page) { 
+				if(this.activeIndex == 0){
+					this.homePageList(page)
+				} else {
+					this.merchants(page)
+				}
+			},
+			merchants(page){//商户列表
 				let data = {
 					page,
 					limit: 20,
-					category_id:this.tabsList[this.status]['id']
+					dcategory_id:this.category_id
+				}
+				this.isSuccess = false
+				let location = uni.getStorageSync('location')
+				merchantApi.merchants(data).then(res => {
+					this.$refs.loading.hide();
+					let list = res.data
+					this.isSuccess = true
+					this.datalen = list.length
+					list.forEach(item => {
+						item.distance = item.merchantappend && distance(item.merchantappend.latitude,item.merchantappend.longitude,location)
+					})
+					if(page == 1){
+						this.onlineDownList = list
+					} else {
+						this.onlineDownList = this.onlineDownList.concat(list) 
+					}
+					this.dataList = this.onlineDownList
+				}).catch(e => {
+					console.log(e)
+				})
+			},
+			homePageList(page){//商品列表
+				let data = {
+					page,
+					limit: 20,
+					category_id:0
 				}
 				this.isSuccess = false
 				IndexApi.homePageList(data).then(res => {
 					this.$refs.loading.hide();
-					this.$refs.shoploading.hide();
 					let list = res.data
 					this.isSuccess = true
 					this.datalen = list.length
 					if(page == 1){
-						this.goldengoods = list
+						this.onlineUpList = list
 					} else {
-						this.goldengoods = this.goldengoods.concat(list) 
+						this.onlineUpList = this.onlineUpList.concat(list) 
 					}
-				}).catch(err => {})
+					this.dataList = this.onlineUpList
+				}).catch(e => {
+					console.log(e)
+				})
 			},
 			tolink(item) {
 				if (!item.href_url.includes('http://') || !item.href_url.includes('https://')) return;
 				uni.$tools.href(`/pages/web-view/hrefurl-view?href_url=${item.href_url}`)
 			},
 			changeTab(index) {
-				this.$refs.shoploading && this.$refs.shoploading.show();
 				this.status = index;
 				this.flag = true;
 				this.$refs.comscroll.downCallback()
 			},
 			navTo(url) {
+				if(url.includes('on-line') && !uni.getStorageSync('token')){
+					// #ifdef APP-PLUS
+					uni.$tools.href("/pages/login/login-pwd")
+					// #endif
+					//#ifdef H5
+					uni.$tools.href("/pages/login/login")
+					// #endif
+					return;
+				}
 				uni.$tools.href(url)
 			}
 		},
@@ -173,28 +308,8 @@
 	.home-page {
 		height: 100%;
 		position: relative;
-
-		.item-second {
-			flex:1;
-		}
-
-		.scroll-bg {
-			background-image: url(../../static/images/homebg.png);
-			background-size: 100%;
-			background-repeat: no-repeat;
-			background-position: center calc(-94px - var(--status-bar-height));
-		}
-
 		.topheight {
-			height: calc(94px + var(--status-bar-height));
-			background-image: url(../../static/images/homebg.png);
-			background-size: 100%;
-			background-repeat: no-repeat;
-			background-position: center top;
-		}
-
-		.uniHeight {
-			height: calc(100% - 94px + var(--status-bar-height))
+			height: calc(65px + var(--status-bar-height));
 		}
 
 		.swiper {
@@ -205,104 +320,49 @@
 		.home-header {
 			// height: 44px;
 			z-index: 999;
-
 			.home-search {
 				height: 44px;
 			}
 		}
-
-		.home-topfiexd {
-			position: sticky;
-			position: -webkit-sticky;
-			top: calc(0px + var(--status-bar-height));
-		}
-
 		.search-box {
 			background-color: #F5F6F8;
 			width: 460rpx;
 			height: 64rpx;
 		}
-
-		.home-typetitle {
-			height: 100rpx;
-
-			.line {
-				width: 100rpx;
-				height: 1px;
-				background-color: #B2B2B2;
-				color: #E7331F;
+		.online-tab-box{
+			width: 706rpx;
+			height: 433rpx;
+			background-repeat: no-repeat;
+			background-size: 100%;
+			background-position: center top;
+			transition: all 0.3 linear; 
+			&.onlineTop{
+				background-image: url('/static/images/onlinetopbg.png');
 			}
-		}
-
-		.hot-shop-item {
-			width: 232rpx;
-			margin-bottom: 6rpx;
-
-			.shop-price {
-				width: 160rpx;
-				height: 38rpx;
-				background-color: #01344E;
+			&.onlineBottom{
+				background-image: url('/static/images/onlinebottombg.png');
 			}
-		}
-
-		.tab-scroll-row {
-			width: 750rpx;
-			height: 88rpx;
-			width: 750rpx;
-			flex-direction: row;
-
-			.tab-item {
-				padding: 0 20rpx;
-				display: inline-flex;
-			}
-
-			.tab-text {
-				height: 78rpx;
-				line-height: 78rpx;
-				background-position: center bottom;
-				background-size: 66rpx 8rpx;
+			.online_tab{
+				height: 80rpx;
 				background-repeat: no-repeat;
-				font-size: 32rpx;
-				color: #47474C;
-
-				&.active {
-					color: #FF3335;
+				background-size: 40%;
+				background-position: center 16rpx;
+				transition: all 0.3 linear; 
+				&.online-top{
+					background-image: url('/static/images/online_top_tab.png');
+					&.active{
+						background-image: url('/static/images/online_top_tab_on.png');
+						background-size: 46%;
+					}
+				}
+				&.online-bottom{
+					background-image: url('/static/images/online_bottom_tab.png');
+					&.active{
+						background-image: url('/static/images/online_bottom_tab_on.png');
+						background-size: 46%;
+					}
 				}
 			}
-		}
-		.tabs-item {
-			width: 20%;
-			position: relative;
-
-			&.line {
-				
-				&::before {
-					content: "";
-					width: 1rpx;
-					height: 20px;
-					background-color: #ECECEC;
-					position: absolute;
-					top: 50%;
-					right: 0;
-					transform: translateY(-50%);
-				}
-			}
-
-			.red {
-				color: #E2231A;
-			}
-
-			.bline {
-				background-image: url(../../static/images/tabs-line.png);
-				background-repeat: no-repeat;
-				background-position: center center;
-				background-size: 100% 100%;
-			}
-
-			.box-transition {
-				transition: all .3s;
-			}
-
 		}
 	}
 </style>

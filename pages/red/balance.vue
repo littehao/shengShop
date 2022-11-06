@@ -1,5 +1,5 @@
 <template>
-	<view class="balace-page bgf4f4">
+	<view class="balace-page bgF5F5F5">
 		<com-head :titleshow="true" :title="title" color="#fff" :backshow="true" class="header-bg"></com-head>
 		<view class="balace-main px-2 pb-4">
 			<view class="pt-5 pb-3 flex justify-between">
@@ -11,7 +11,7 @@
 			<template v-if="List">
 				<template v-if="List.length > 0">
 					<view class="border-bottom border-light-secondary not-border bgffff rounded mx-2 mb-1 p-3" 
-					v-for="(item,index) in List" :key="index">
+					v-for="(item,index) in List" :key="index" @click="navTo(item)">
 						<view class="fs-30 ft9999 flex align-center justify-between mb-2">
 							<text class="ft3333">红包数量:{{item.red_count}}</text>
 							<text class="fs-28">{{item.created_at}}</text>
@@ -101,6 +101,12 @@
 				this.page = 1
 				this.List =[]
 				this.sendRedPackOrderListFn()
+			},
+			navTo(item){
+				if(item.status != 1)return
+				uni.navigateTo({
+					url:'/pages/red/redcode?trade_no='+item.trade_no
+				})
 			}
 		},
 		components:{

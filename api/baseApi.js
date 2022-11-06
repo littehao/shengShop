@@ -49,6 +49,16 @@ export default class {
 		)
 	}
 	/**
+	 * 验证码登录 
+	 */
+	static loginSmsCode(data) {
+		return tools.request(
+			`/api/member/loginSmsCode`,
+			'POST',
+			data
+		)
+	}
+	/**
 	 * 修改用户信息
 	 */
 	static updateInfo(data) {
@@ -56,6 +66,55 @@ export default class {
 			`/api/member/updateInfo`,
 			'POST',
 			data
+		)
+	}
+	/**
+	 * 发送绑定手机号验证码
+	 */
+	static sendBindPhoneSms(data) {
+		return tools.request(
+			`/api/member/sendBindPhoneSms`,
+			'POST',
+			data
+		)
+	}
+	/**
+	 * 发送更新密码短信验证码
+	 */
+	static sendUpdatePasswordSms(data) {
+		return tools.request(
+			`/api/member/sendUpdatePasswordSms`,
+			'POST',
+			data
+		)
+	}
+	/**
+	 * 更新登陆密码
+	 */
+	static updatePassword(data) {
+		return tools.request(
+			`/api/member/updatePassword`,
+			'POST',
+			data
+		)
+	}
+	/**
+	 * 公告列表
+	 */
+	static notices(data) {
+		return tools.request(
+			`/api/notices`,
+			'GET'
+		)
+	}
+	/**
+	 * 公告详情
+	 */
+	static noticesDetails(data) {
+		console.log(data)
+		return tools.request(
+			`/api/notices/${data.id}`,
+			'GET'
 		)
 	}
 }

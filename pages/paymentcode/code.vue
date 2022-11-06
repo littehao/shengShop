@@ -1,5 +1,5 @@
 <template>
-	<view class="codepay h-100vh bgf4f4">
+	<view class="codepay h-100vh bgF5F5F5">
 		<comHead backshow titleshow title="付款码" bgcolor="#fff" class="border-bottom"></comHead>
 		<view class="flex  align-center  justify-center" style="padding-top:20vh" v-if="url">
 			<canvas id="qrcode" canvas-id="qrcode" style="width: 300px;height: 300px;" />

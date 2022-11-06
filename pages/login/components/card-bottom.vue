@@ -7,12 +7,12 @@
 		</view>
 		<view class="py-5 flex justify-center align-center w-100">
 			<view class="flex flex-column align-center mx-3" v-if="pwd">
-				<view class="box-wh border bgf4f4 flex justify-center align-center mb-2"  @click="navTo('/pages/login/login-pwd')">
+				<view class="box-wh border bgF5F5F5 flex justify-center align-center mb-2"  @click="navTo('/pages/login/login-pwd')">
 					<text class="iconfont icon-mima1 fs-40 ft3333"></text>
 				</view>
 			</view>
 			<view class="flex flex-column align-center mx-3" v-if="wx">
-				<view class="box-wh border bgf4f4 flex  justify-center align-center mb-2"  @click="navTo('/pages/login/login')">
+				<view class="box-wh border bgF5F5F5 flex  justify-center align-center mb-2"  @click="navTo('/pages/login/login')">
 					<text class="iconfont icon-weixin1 weiXin fs-56"></text>
 				</view>
 			</view>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
 	props:{
 		phone:{
@@ -43,6 +44,9 @@ export default {
      
     }
   },
+	computed:{
+		...mapGetters(['getPlatform'])
+	},
   methods:{
 	  open(){
 		  this.$refs.Loginpopup.open();

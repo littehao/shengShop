@@ -1,15 +1,15 @@
 <template>
-	<view class="order-confirm bgf4f4">
+	<view class="order-confirm bgF5F5F5">
 		<comHead backshow titleshow title="订单确认" bgcolor="#fff"  class="border-bottom"></comHead>
 		<view class="address-box bgffff mb-2">
 			<template v-if="address">
 				<view class="flex flex-column address px-3 pt-2" style="height: 188rpx;" @click="navTo('/pages/address/address')">
 					<view  class="flex align-center mb-2">
-						<text class="fs-24 ftffff bg-purple  rounded  px-1 mr-1" v-if="address.is_default == 1">默认</text>
-						<text class="fs-24  ft3333">{{address.shipping_province + address.shipping_city + address.shipping_area}}</text>
+						<text class="fs-30 ftffff btnBg  rounded  px-1 mr-1" v-if="address.is_default == 1">默认</text>
+						<text class="fs-30  ft3333">{{address.shipping_province + address.shipping_city + address.shipping_area}}</text>
 					</view>
 					<view class="fs-32 ft3333 mb-1">{{address.shipping_address}}</view>
-					<view class="flex align-center fs-24 ft3333"><text class="mr-1">{{address.shipping_name}}</text><text>{{address.shipping_phone}}</text></view>
+					<view class="flex align-center fs-28 ft3333"><text class="mr-1">{{address.shipping_name}}</text><text>{{address.shipping_phone}}</text></view>
 				</view>
 			</template>
 			<template v-else>
@@ -26,11 +26,11 @@
 					</view>
 					<block v-for="(goods,j) in item.goods" :key="j">
 						<view class="flex align-center border-bottom py-3 goods-item" v-if="goods.checked || isShop">
-							<image style="width: 164rpx;height:164rpx;" class="flex mr-3 bgf4f4 rounded" :src="goods.img" mode="aspectFill"></image>
+							<image style="width: 164rpx;height:164rpx;" class="flex mr-3 bgF5F5F5 rounded" :src="goods.img" mode="aspectFill"></image>
 							<view class="flex flex-column flex-1">
 								<view class="fs-28 ft3333 font-weight-bold mb-1 text-ellipsis" style="width:500rpx">{{goods.goods_name}}</view>
 								<view class="mb-1">
-									<text class="fs-20 ft3333 bgf4f4 rounded goods-rule px-2">{{goods.ruletext}}</text>
+									<text class="fs-20 ft3333 bgF5F5F5 rounded goods-rule px-2">{{goods.ruletext}}</text>
 								</view>
 								<view class="flex align-center  justify-between">
 									<view class="flex align-center">
@@ -138,6 +138,7 @@
 				if(!frist)
 				this.getAddressFn();
 			}
+			this.$refs.payconfig && this.$refs.payconfig.argumentsFn()
 		},
 		created() {
 			let form = uni.getStorageSync('formCart')

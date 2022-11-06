@@ -1,5 +1,5 @@
 <template>
-	<view class="shop-details-page bgf4f4">
+	<view class="shop-details-page bgF5F5F5">
 		<view class="fixed-top" style="height: 44px;">
 			<comHead></comHead>
 			<view class="flex align-center justify-between px-1">
@@ -13,7 +13,7 @@
 				<swiper class="shop-swiper bgffff" circular :indicator-dots="true" :autoplay="true" :interval="10000"
 					:duration="500">
 					<swiper-item v-for="(item,index) in details.images" :key="index">
-						<view class="swiper-item  bgf4f4">
+						<view class="swiper-item  bgF5F5F5">
 							<image style="width: 100%;height:750rpx;" :src="item" mode="aspectFill"></image>
 						</view>
 					</swiper-item>
@@ -37,7 +37,7 @@
 				<view class="flex align-center" v-if="Number(details.integral) > 0">
 					<text class="fs-28 ft3333 font-weight-bold mr-3">福利</text>
 					<view class="flex align-center flex-1 border-bottom py-4">
-						<text class="fs-28 ft3333">购买此商品将获赠贡献值</text>
+						<text class="fs-28 ft3333">购买此商品将兑换贡献值</text>
 						<text class="fs-28 ft3d3c font-weight-bold ml-1">{{Number(details.integral).toFixed(2)}}</text>
 					</view>
 				</view>
@@ -121,7 +121,7 @@
 					<view style="height: 50rpx;"></view>
 					<view class="flex align-center mb-2 flex align-center justify-between"
 						v-if="Number(choiceGoods.integral) >  0">
-						<text class="fs-24 ft3333">赠送贡献值</text>
+						<text class="fs-24 ft3333">贡献值</text>
 						<text class="fs-28 ft3d3c font-weight-bold">{{Number(choiceGoods.integral)}}</text>
 					</view>
 					<!-- <view class="flex align-center mb-2 flex align-center justify-between" v-if="Number(choiceGoods.contribution_integral) >  0">

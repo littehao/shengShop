@@ -22,7 +22,7 @@
 				<input type="number" class="flex-1 fs-30 ft3333" placeholder="请输入验证码" v-model="smsCode"  placeholder-class="placeholder">
 				<text class="fs-28 ft3d3c" @click="getCode">{{codeText}}</text>
 			</view>
-			<view class="rounded-circle fs-32 ftffff  flex align-center justify-center py-3 btn2-bg" @click="submit">登录</view>
+			<view class="rounded-circle fs-32 ftffff  flex align-center justify-center py-3 btnBg" @click="submit">登录</view>
 			<view class="flex justify-center align-center mt-4">
 				<text class="fs-28 ft3d3c" @click="loginMode">其他登录方式</text>
 				<text class="iconfont icon-xiayibu fs-36 fta0a0"></text>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+	import baseApi from '@/api/baseApi.js'
 	import comHead from '@/components/header/index.vue';
 	import cardBottom from "./components/card-bottom.vue";
 	import  {mapActions,mapGetters}  from 'vuex'
@@ -55,62 +56,13 @@
 		},
 		created() {
 			istimer =  true;
-			this.$store.commit("setRoutes",true);
-			let isagree = uni.getStorageSync('isagree')+'';
-			if(isagree){
-				this.isagree = eval(isagree.toLowerCase());
-			}
-		},
-		onShow() {
-			let isagree = uni.getStorageSync('isagree')+'';
-			if(isagree){
-				this.isagree = eval(isagree.toLowerCase());
-			}
 		},
 		methods:{
-			...mapActions(['loginSmsCode','sendLoginSms','memberInfo','wxUserinfo']),
 			loginMode(){
 				this.$refs.LoginMode.open();
 			},
-			agreeFn(){
-				this.isagree  = !this.isagree;
-				uni.setStorageSync('isagree',this.isagree);
-			},
-			linkToHTML(url,title) {
-				// 前端读取
-				// uni.navigateTo({
-				// 	url: `/pages/web-view/hybrid?url=${url}&title=${title}`
-				// })
-				// 后台读取
-				let html;
-				if(title=='隐私政策' && this.getConfig.Privacy_policy){
-					html = this.getConfig.Privacy_policy.replace(/\t/g, "\n");
-				}else if(title=='用户协议' && this.getConfig.user_agreement){
-					html = this.getConfig.user_agreement.replace(/\t/g, "\n")
-				}else{
-					html = `<div style="fontSize:30px !important;textAlign:center;padding:20px">后台未配置${title}<div>`
-				}
-				uni.setStorage({
-					key:title=='隐私政策'?"Privacy_policy":"user_agreement",
-					data:html,
-					success() {
-						uni.navigateTo({
-							url: `/pages/web-view/operation?title=${title}`
-						})
-					}
-				})
-			},
 			async getCode(){
 				try{
-					// if(!this.isagree){
-					// 	uni.showModal({
-					// 		title:"提示",
-					// 		content:'请阅读并同意《 用户协议 》和《 隐私政策 》',
-					// 		showCancel:false,
-					// 		confirmColor:'#E23D3C',
-					// 	})
-					// 	return;
-					// };
 					if(!this.mobile){
 						uni.showToast({
 						    title: '手机号不能为空',
@@ -173,100 +125,48 @@
 				}
 				
 			},
-			async submit(){
-				try{
-					// if(!this.isagree){
-					// 	uni.showModal({
-					// 		title:"提示",
-					// 		content:'请阅读并同意《 用户协议 》和《 隐私政策 》',
-					// 		showCancel:false,
-					// 		confirmColor:'#E23D3C',
-					// 	})
-					// 	return;
-					// };
-					if(!this.mobile){
-						uni.showToast({
-						    title: '手机号不能为空',
-							icon:'none'
-						});
-						return;
-					}
-					if(!this.smsCode){
-						uni.showToast({
-						    title: '验证码不能为空',
-							icon:'none'
-						});
-						return;
-					}
-					// if(!this.isagree){
-					// 	uni.showToast({
-					// 	    title: '请勾选同意后再进行登录',
-					// 		icon:'none'
-					// 	});
-					// 	return;
-					// }
-					let data ={
-						smsCode:this.smsCode,
-						mobile:this.mobile
-					}
-					if(flag){
-						flag  = false;
-						uni.showLoading({
-						    title: '登录中...',
-						});
-						let res =  await this.loginSmsCode(data);
-						if(res.code == 200){
-							uni.showToast({
-							    title: '登录成功',
-								icon:'none'
-							});
-							let token = res.data.token;
-							this.$store.commit("setToken", token);
-							this.GetInfo();
-						}
-					}
-				}catch(e){
-					console.log(e)
-					uni.hideLoading();
-					flag  = true;
-					if(e.data.code == 402){
-						uni.showToast({
-						    title: e.msg,
-							icon:'none'
-						});
-						setTimeout(()=>{
-							uni.navigateTo({
-								url:"/pages/register/register"
-							});
-						},2000)
-					}else{
-						uni.showToast({
-						    title: e.msg,
-							icon:'none'
-						});
-					}
-					//TODO handle the exception
+			submit(){
+				if(!this.mobile){
+					uni.showToast({
+					    title: '手机号不能为空',
+						icon:'none'
+					});
+					return;
 				}
-				
+				if(!this.smsCode){
+					uni.showToast({
+					    title: '验证码不能为空',
+						icon:'none'
+					});
+					return;
+				}
+				let data ={
+					smsCode:this.smsCode,
+					mobile:this.mobile
+				}
+				uni.showLoading({
+				    title: '登录中...',
+				});
+				baseApi.loginSmsCode(data).then(res => {
+					uni.showToast({
+					    title: '登录成功',
+							icon:'none'
+					});
+					let token = res.data.token;
+					this.$store.commit("setToken", token);
+					this.GetInfo();
+				})
 			},
-			async GetInfo(){
-				try{
-					let res  = await this.memberInfo()
-					uni.hideLoading();
-					if(res.code == 200){
-						this.$store.commit("setUser",res.data)
-						setTimeout(()=>{
-							flag  = true;
-							uni.reLaunch({
-								url:"/pages/main"
-							});
-						},2000)
-					}
-				}catch(e){
-					flag  = true;
-					console.log(e)
-				}
-			
+			GetInfo(){
+				baseApi.memberInfo().then(res => {
+					this.$store.commit("setUser",res.data)
+					setTimeout(()=>{
+						flag  = true;
+						uni.reLaunch({
+							url:"/pages/main"
+						});
+					},2000)
+				})
 			},
 			navTo(){
 				uni.navigateTo({

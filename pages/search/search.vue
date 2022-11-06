@@ -1,9 +1,9 @@
 <template>
-	<view  class="search-page  bgf4f4">
+	<view  class="search-page  bgF5F5F5">
 		<view class="search-header bgffff topfiexd border-bottom" style="top: 0;">
 			<comHead></comHead>
 			<view class="flex align-center justify-between px-2" style="height: 44px;">
-				<view class="bgf4f4 search-box bgf4f4 px-2 flex align-center">
+				<view class="bgF5F5F5 search-box bgF5F5F5 px-2 flex align-center">
 					<text class="iconfont icon-sousuo_2 fs-36 ftb2b2 mr-1"></text>
 					<input class="flex-1 fs-24 ft3333" @confirm="getGoodsList" type="text" v-model="search" confirm-type="search" focus placeholder="请您输入商品、品牌、店铺名称" placeholder-class="placeholder">
 				</view>

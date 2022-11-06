@@ -8,11 +8,11 @@
 						@click="$refs.logout.open()"></text>
 				</view>
 
-				<view class="flex align-center px-3 mt-2">
+				<view class="flex align-center pl-3 mt-2">
 					<template v-if="getUser">
 						<view class="avatar position-relative" @click="navTo('/pages/eidt-info/eidt-info')">
 							<view style="width: 100rpx;height: 100rpx;" class="overflow-hidden  rounded-circle  border">
-								<image v-if="getUser.member_avatar" class="rounded-circle bgf4f4 flex"
+								<image v-if="getUser.member_avatar" class="rounded-circle bgF5F5F5 flex"
 									style="width: 100rpx;height: 100rpx;" :src="getUser.member_avatar"
 									mode="aspectFill"></image>
 								<image v-else class="rounded-circle flex" mode="aspectFill"
@@ -20,12 +20,14 @@
 							</view>
 						</view>
 						<view class="flex flex-1 flex-column ml-2">
-							<view class="flex justify-start align-center flex-1">
-								<text
-									class="fs-36 ftffff text-ellipsis">{{getUser.nickname || getUser.member_phone}}</text>
+							<view class="flex justify-between align-center flex-1">
+								<text class="fs-36 ftffff text-ellipsis">
+									{{getUser.nickname || getUser.member_phone}}
+								</text>
 								<!-- <text class="fs-28 ftffff" v-if="getUser.nickname && getUser.member_phone">({{getUser.member_phone}})</text> -->
-								<text
-									class="d-inline-block px-2 fs-24 ftED3C bgffff rounded ml-1 text-ellipsis">{{getUser.agent_level_name || finebeanLevel}}</text>
+								<text class="d-inline-block pl-4 pr-2 py-1 fs-28 ft3B3E4F bglevelName rounded-left-circle ml-1 text-ellipsis">
+									{{getUser.agent_level_name || finebeanLevel}}
+								</text>
 							</view>
 							<view class="fs-20 ftffff" style="border-radius: 4px;">
 								<text class="fs-28 ftffff"
@@ -43,192 +45,153 @@
 					</template>
 				</view>
 
-				<view class="mx-3 bgffff p-2 rounded-lg my-5">
-					<view class="flex align-center justify-between">
-						<text class="fs-36 ft3333">我的账户</text>
-					</view>
+				<view class="mx-3 bgffff p-2 rounded-lg mb-5" style="margin-top: 60rpx;">
 					<view class="flex align-center justify-around py-3">
 						<view class="flex flex-column justify-center text-center"
 							@click="navTo(`/pages/record/contribution?title=贡献值&category=9`)">
 							<text
-								class="fs-28 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.fine_bean).toFixed(2)) || 0}}</text>
+								class="fs-36 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.fine_bean).toFixed(2)) || 0}}</text>
 							<text class="fs-28 ft9999 mt-1">贡献值</text>
 						</view>
 						<view class="flex flex-column justify-center text-center"
 							@click="navTo(`/pages/balance/balance?title=工分&category=10`)">
 							<text
-								class="fs-28 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.available_integral).toFixed(2)) || 0}}</text>
+								class="fs-36 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.available_integral).toFixed(2)) || 0}}</text>
 							<text class="fs-28 ft9999 mt-1">工分</text>
 						</view>
 						<view class="flex flex-column justify-center text-center"
 							@click="navTo(`/pages/balance/balance?title=绿分&category=1`)">
 							<text
-								class="fs-28 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.available_rc_balance).toFixed(2)) || 0}}</text>
+								class="fs-36 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.available_rc_balance).toFixed(2)) || 0}}</text>
 							<text class="fs-28 ft9999  mt-1">绿分</text>
 						</view>
 						<view class="flex flex-column justify-center text-center"
 							@click="navTo(`/pages/balance/balance?title=消费劵&category=11`)">
 							<text
-								class="fs-28 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.with_draw_balance)) || 0}}</text>
+								class="fs-36 ft3333 font-weight-bolder text-ellipsis">{{(getUser && Number(getUser.with_draw_balance)) || 0}}</text>
 							<text class="fs-28 ft9999 mt-1">消费劵</text>
 						</view>
 					</view>
 				</view>
 
 				<view class="mx-3 bgffff p-2 rounded-lg">
-					<view class="flex align-center justify-between  mb-3">
+					<view class="flex align-center justify-between  mb-4 pl-1">
 						<text class="fs-36 ft3333">我的订单</text>
 					</view>
 					<view class="flex align-center justify-around pb-2">
 						<view class="flex flex-column text-center" @click="navTo('/pages/order/order?index=1')">
-							<view style="width: 40rpx;height: 41rpx;" class="mx-auto mb-2">
-								<image style="width: 40rpx;height: 41rpx;" src="../../static/images/my_order_icon1.png"
+							<view style="width: 50rpx;height: 51rpx;" class="mx-auto mb-3">
+								<image style="width: 50rpx;height: 50rpx;" src="../../static/images/my_order_icon1.png"
 									mode="aspectFill"></image>
 							</view>
-							<text class="fs-24 ft3333">待付款</text>
+							<text class="fs-28 ft999999">待付款</text>
 						</view>
 						<view class="flex flex-column text-center" @click="navTo('/pages/order/order?index=3')">
-							<view style="width: 40rpx;height: 41rpx;" class="mx-auto mb-2">
-								<image style="width: 40rpx;height: 41rpx;" src="../../static/images/my_order_icon2.png"
+							<view style="width: 50rpx;height: 50rpx;" class="mx-auto mb-3">
+								<image style="width: 50rpx;height: 50rpx;" src="../../static/images/my_order_icon2.png"
 									mode="aspectFill"></image>
 							</view>
-							<text class="fs-24 ft3333">待收货</text>
+							<text class="fs-28 ft999999">待收货</text>
 						</view>
 						<view class="flex flex-column text-center" @click="navTo('/pages/order/order?index=4')">
-							<view style="width: 40rpx;height: 41rpx;" class="mx-auto mb-2">
-								<image style="width: 40rpx;height: 41rpx;" src="../../static/images/my_order_icon3.png"
+							<view style="width: 50rpx;height: 50rpx;" class="mx-auto mb-3">
+								<image style="width: 50rpx;height: 50rpx;" src="../../static/images/my_order_icon3.png"
 									mode="aspectFill"></image>
 							</view>
-							<text class="fs-24 ft3333">已签收</text>
+							<text class="fs-28 ft999999">已签收</text>
 						</view>
 						<view class="flex flex-column text-center" @click="navTo('/pages/order/order?index=0')">
-							<view style="width: 35rpx;height: 39rpx;" class="mx-auto mb-2">
-								<image style="width: 35rpx;height: 39rpx;" src="../../static/images/my_order_icon5.png"
+							<view style="width: 45rpx;height: 49rpx;" class="mx-auto mb-3">
+								<image style="width: 45rpx;height: 49rpx;" src="../../static/images/my_order_icon5.png"
 									mode="aspectFill"></image>
 							</view>
-							<text class="fs-24 ft3333">全部订单</text>
+							<text class="fs-28 ft999999">全部订单</text>
 						</view>
 					</view>
 				</view>
 			</view>
-
+			
 			<view class="mx-3 bgffff p-2 rounded-lg my-5">
-				<view class="flex align-center justify-between">
-					<text class="fs-36 ft3333">红包工具</text>
-				</view>
-				<view class="flex align-center justify-around py-3">
-					<view class="flex flex-column justify-center text-center"
-						@click="navTo('/pages/red/balance?title=红包余量')">
-						<text
-							class="fs-36 ft3333 font-weight-bolder">{{(getUser && Number(getUser.red_count)) || 0}}</text>
-						<text class="fs-28 ft9999 mt-1">红包余量</text>
-					</view>
-					<view class="flex flex-column justify-center text-center" @click="navTo('/pages/red/buyred')">
-						<text class="fs-52 ft3333 font-weight-bolder iconfont icon-hongbao1"></text>
-						<text class="fs-28 ft9999 mt-1">买红包</text>
-					</view>
-					<view class="flex flex-column justify-center text-center" @click="navTo('/pages/red/sendred')">
-						<text class="fs-52 ft3333 font-weight-bolder iconfont icon-hongbao2"></text>
-						<text class="fs-28 ft9999  mt-1">发红包</text>
-					</view>
-				</view>
-			</view>
-
-			<view class="mx-3 bgffff p-2 rounded-lg my-5">
-				<view class="flex align-center justify-between">
-					<text class="fs-36 ft3333">我的好友</text>
-				</view>
-				<view class="flex align-center justify-around py-3">
-					<view class="flex flex-column justify-center text-center"
-						@click="navTo('/pages/friend/friendList?type=1&title=我的好友')">
-						<text class="fs-36 ft3333 font-weight-bolder">{{memberCount.direct_push || 0}}</text>
-						<text class="fs-28 ft9999 mt-1">我的好友</text>
-					</view>
-					<view class="flex flex-column justify-center text-center"
-						@click="navTo('/pages/friend/friendList?type=1&title=我的好友')">
-						<text class="fs-36 ft3333 font-weight-bolder">{{memberCount.indirect_push || 0}}</text>
-						<text class="fs-28 ft9999 mt-1">我的粉丝</text>
-					</view>
-				</view>
-			</view>
-
-			<view class="mx-3 mt-3 p-2 bgffff  rounded-lg">
-				<view class="flex align-center">
+				<view class="flex align-center justify-between pl-1">
 					<text class="fs-36 ft3333">更多服务</text>
 				</view>
-				<view class="flex flex-column pt-5">
-					<view class="flex align-center server-item" @click="navTo('/pages/exchange/exchange')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_sk.png"
-								mode="widthFix"></image>
+				<view class="flex flex-wrap py-3">
+					<template v-if="getConfig && getConfig.hongbaoopen == 1">
+						<view class="flex flex-column justify-center text-center my_tool"
+							@tap="navTo('/pages/red/balance?title=红包余量')">
+							<text
+								class="fs-36 ft3333 font-weight-bolder">{{(getUser && Number(getUser.red_count)) || 0}}</text>
+							<text class="fs-28 ft9999 mt-1">红包余量</text>
 						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">工分兑换绿分</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+						<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/red/sendred')">
+							<image class="my_icon" src="/static/images/my_icon/my_icon_1.png" mode="aspectFit"></image>
+							<text class="fs-28 ft9999 mt-1">发红包</text>
+						</view>
+						<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/red/buyred')">
+							<image class="my_icon" src="/static/images/my_icon/my_icon_2.png" mode="aspectFit"></image>
+							<text class="fs-28 ft9999 mt-1">买红包</text>
+						</view>
+					</template>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/friend/share')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_share.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999 mt-1">邀请好友</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/settled/settled')"
-						v-if="getUser && getUser.is_shop_merchant != 1">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_3.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">入驻商城</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/friend/friendList?type=1&title=我的好友')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_3.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">我的好友</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/settled/shopcode')"
-						v-if="getUser && getUser.is_shop_merchant == 1">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_3.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">商家二维码</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/exchange/exchange')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_4.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">工分兑换</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/likes/likes')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/likes.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">我的收藏</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/mystores/index')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_12.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">我的店铺</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/setup/bindPhone')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_14.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">绑定手机号</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+<!-- 					<view 
+					v-if="getUser && getUser.is_shop_merchant != 1" 
+					class="flex flex-column justify-center text-center my_tool" 
+					@tap="navTo('/pages/settled/settled')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_5.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">入驻商城</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/address/address')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_9.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8 flex-1 ml-1">收货地址</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view 
+					v-if="getUser && getUser.is_shop_merchant == 1" 
+					class="flex flex-column justify-center text-center my_tool" 
+					@tap="navTo('/pages/settled/shopcode')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_5.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">商家二维码</text>
+					</view> -->
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/likes/likes')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_6.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">我的收藏</text>
 					</view>
-					<view class="flex align-center server-item" @click="navTo('/pages/feedback/feedback')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_7.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8  flex-1 ml-1">问题反馈</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/address/address')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_7.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">收货地址</text>
 					</view>
-					<view class="flex align-center server-item"
-						@click="navTo('/pages/web-view/hybrid?url=user-agreement&title=用户协议')">
-						<view style="height: 40rpx;">
-							<image style="width: 40rpx;" class="mx-auto mb-1" src="../../static/images/my_icon_10.png"
-								mode="widthFix"></image>
-						</view>
-						<text class="fs-28 ftB5B8  flex-1 ml-1">用户协议</text>
-						<text class="iconfont icon-xiayibu fs-52 ft9999"></text>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/setup/setup')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_10.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">账号设置</text>
+					</view>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/feedback/feedback')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_8.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">问题反馈</text>
+					</view>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/web-view/hybrid?url=user-agreement&title=用户协议')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_9.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">用户协议</text>
+					</view>
+					<view class="flex flex-column justify-center text-center my_tool" @tap="navTo('/pages/on-line/on-line')">
+						<image class="my_icon" src="/static/images/my_icon/my_icon_11.png" mode="aspectFit"></image>
+						<text class="fs-28 ft9999  mt-1">在线客服</text>
 					</view>
 				</view>
 			</view>
 		</view>
 
 		<view style="height: 50rpx;"></view>
+		<view class="ft999999 text-center mb-5 fs-24">当前版本：{{getVersion}}</view>
 
 		<uni-popup ref="logout" type="dialog" style="z-index:999;" :maskClick="false">
 			<view class="bgffff rounded-lg" style="width: 560rpx;">
@@ -244,10 +207,26 @@
 				</view>
 			</view>
 		</uni-popup>
+		
+		<uni-popup ref="stores" type="dialog" style="z-index:999;" :maskClick="false">
+			<view class="bgffff rounded-lg" style="width: 560rpx;">
+				<view class="fs-28 ft3333 font-weight-bold text-center p-4 pb-0">您当前还没注册商户，请先注册</view>
+				<view class="flex flex-wrap m-2">
+					<text class="bgF5F5F5 rounded p-1 px-2 text-left" style="word-break:break-all;">{{getConfig.dmerchant_address}} </text>	
+				</view>
+				<view class="flex align-center justify-center" style="height: 100rpx;">
+					<view class="fs-28 border ft9999 flex align-center justify-center rounded-circle"
+						style="width: 200rpx;height: 60rpx;" @click="$refs.stores.close()">取消</view>
+					<view class="fs-28 btnBg ftffff flex align-center justify-center rounded-circle ml-4"
+						style="width: 200rpx;height: 60rpx;" @tap="copyTxt">复制</view>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
+	import { copyTxt } from '@/utils/common.js'
 	import myApi from '@/api/myApi.js'
 	import {
 		mapActions,
@@ -314,8 +293,21 @@
 					// #endif
 					return;
 				}
+				if(url == '/pages/mystores/index' && !this.getUser.dmerchant){
+					this.$refs.stores.open()
+					return;
+				}
+				if(url.includes('on-line')){
+					// #ifdef APP-PLUS
+					url = '/pages/on-line/app-on-line'
+					// #endif
+				}
 				uni.$tools.href(url)
 			},
+			copyTxt(){
+				copyTxt(this.getConfig.dmerchant_address || '')
+				this.$refs.stores.close()
+			}
 		}
 	}
 </script>
@@ -331,8 +323,8 @@
 
 		.my-content {
 			min-height: 100%;
-			background-image: url(../../static/images/my_bg.png);
-			background-size: 100%;
+			background-image: url(../../static/images/mybg.png);
+			background-size: 100% 30vh;
 			background-repeat: no-repeat;
 			background-position: center top;
 
@@ -346,7 +338,15 @@
 				margin-bottom: 50rpx;
 			}
 		}
-
+		.my_tool{
+			width: 25%;
+			margin-bottom: 40rpx;
+			.my_icon{
+				width:50rpx;
+				height: 50rpx;
+				margin:0 auto 10rpx;
+			}
+		}
 
 	}
 </style>

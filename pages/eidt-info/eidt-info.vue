@@ -1,5 +1,5 @@
 <template>
-	<view class="edit-info-page bgf4f4">
+	<view class="edit-info-page bgF5F5F5">
 		<comHead backshow titleshow title="用户信息" bgcolor="#fff"  class="border-bottom"></comHead>
 		<view class="bgffff rounded px-3 mx-2  mt-3">
 			<view class="flex align-center justify-between border-bottom py-3">
@@ -40,7 +40,7 @@
 			</view>
 		</view>
 		
-		<view class="position-fixed left-0 right-0  bgf4f4  flex align-center justify-center" style="height: 60px;bottom: 50px;">
+		<view class="position-fixed left-0 right-0  bgF5F5F5  flex align-center justify-center" style="height: 60px;bottom: 50px;">
 			<view class="btnBg fs-28 ftffff flex align-center justify-center rounded-circle mx-2 py-2  flex-1" @click="submit">确认</view>
 		</view>
 	</view>
